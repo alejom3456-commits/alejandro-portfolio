@@ -69,12 +69,21 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
           </>
         )}
         <div className="relative mx-auto max-w-5xl">
-          <span
-            className="inline-block rounded-sm px-3 py-1.5 font-grotesk text-[11px] font-bold uppercase tracking-[0.1em] text-cream"
-            style={{ backgroundColor: c.accent }}
-          >
-            {c.categoryTag}
-          </span>
+          <div className="flex items-start justify-between gap-4">
+            <span
+              className="inline-block rounded-sm px-3 py-1.5 font-grotesk text-[11px] font-bold uppercase tracking-[0.1em] text-cream"
+              style={{ backgroundColor: c.accent }}
+            >
+              {c.categoryTag}
+            </span>
+            {c.logo && (
+              <div className="rounded-sm bg-cream px-4 py-2.5">
+                <div className="relative h-6 w-24">
+                  <Image src={c.logo} alt={`${c.client} logo`} fill className="object-contain" />
+                </div>
+              </div>
+            )}
+          </div>
           <h1 className="mt-6 font-grotesk text-[34px] font-bold leading-[1.1] text-cream md:text-[46px]">
             {c.title}
           </h1>
@@ -142,6 +151,7 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                         color={c.accent}
                         isVideo={img.isVideo}
                         src={img.src}
+                        videoSrc={img.videoSrc}
                       />
                     ))}
                   </div>
@@ -168,6 +178,7 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                   color={c.accent}
                   isVideo={img.isVideo}
                   src={img.src}
+                  videoSrc={img.videoSrc}
                 />
               ))}
             </div>

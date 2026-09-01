@@ -2,7 +2,8 @@ export type ExhibitImage = {
   letter: string;
   label: string;
   isVideo?: boolean;
-  src?: string; // path under /public — when set, the real photo renders instead of the placeholder tile
+  src?: string; // path under /public — when set, the real photo (or video poster) renders instead of the placeholder tile
+  videoSrc?: string; // path under /public to an .mp4 — when set together with isVideo, renders a real playable video
 };
 
 export type CaseSection = {
@@ -26,6 +27,7 @@ export type CaseStudy = {
   exhibitLabel: string; // used on the homepage exhibit card, e.g. "EXHIBIT A"
   homeDescription: string;
   heroImage?: string; // optional real photo shown behind the case hero — only set where real photos exist
+  logo?: string; // optional client/brand logo badge shown in the case hero
   sections: CaseSection[];
   appendixExhibits?: ExhibitImage[];
 };
@@ -50,6 +52,7 @@ export const cases: CaseStudy[] = [
     accent: "#2B4EA8",
     exhibitLabel: "EXHIBIT A — TRADE MARKETING",
     heroImage: "/images/loreal/hyalu-b5-kiosk.jpg",
+    logo: "/images/loreal/loreal-paris-logo.png",
     homeDescription:
       "Trade marketing execution at the shelf and in person — from the CeraVe Gift-With-Purchase mechanic to a trade fair and live brand activations for La Roche-Posay, Vichy and SkinCeuticals.",
     sections: [
@@ -94,7 +97,7 @@ export const cases: CaseStudy[] = [
       {
         title: "Learning",
         tag: "MY ROLE",
-        body: "Brand strategy is only as strong as its execution at the shelf — the gap between a campaign concept and what a shopper actually sees is where most of the real work happens.",
+        body: "Brand strategy is only as strong as its execution at the shelf — the gap between a campaign concept and what a shopper actually sees is where most of the real work happens. Logistics isn't a background task, it's the strategy: a perfect PLV design that arrives late or gets set up wrong is a failed activation, no matter how good the concept was. I also learned to think past the individual sale toward the full shopping experience — what a shopper feels walking up to a stand, not just what they buy from it — and to treat AI's growing role in how people research these purchases as something to design for now, not later. And every activation is a draft for the next one: each fair, each point of sale, each street outing taught me something specific to make the following one more attention-grabbing, better staffed, and better executed than the last.",
       },
     ],
     appendixExhibits: [
@@ -107,6 +110,13 @@ export const cases: CaseStudy[] = [
       { letter: "K", label: "Illuminated CeraVe wall — Coopidrogas fair", src: "/images/loreal/coopidrogas-illuminated-wall.jpg" },
       { letter: "L", label: "Dermatological division street fieldwork — team", src: "/images/loreal/fieldwork-team-2.jpg" },
       { letter: "M", label: "Dermatological division street fieldwork — team", src: "/images/loreal/fieldwork-team-3.jpg" },
+      {
+        letter: "N",
+        label: "CeraVe Suncare launch — building facade activation",
+        isVideo: true,
+        src: "/images/loreal/cerave-suncare-facade-poster.jpg",
+        videoSrc: "/videos/loreal/cerave-suncare-facade.mp4",
+      },
     ],
   },
   {

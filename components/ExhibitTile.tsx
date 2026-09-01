@@ -7,9 +7,36 @@ export type ExhibitItem = {
   color: string;
   isVideo?: boolean;
   src?: string;
+  videoSrc?: string;
 };
 
-export default function ExhibitTile({ letter, label, color, isVideo = false, src }: ExhibitItem) {
+export default function ExhibitTile({ letter, label, color, isVideo = false, src, videoSrc }: ExhibitItem) {
+  if (isVideo && videoSrc) {
+    return (
+      <div className="group relative aspect-[4/5] overflow-hidden bg-inkNavy">
+        <video
+          controls
+          preload="none"
+          playsInline
+          poster={src}
+          className="h-full w-full object-cover"
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center gap-1.5 p-2"
+          style={{ background: "linear-gradient(to top, rgba(20,24,31,0.92), rgba(20,24,31,0))" }}
+        >
+          <PlayIcon size={10} />
+          <span className="font-grotesk text-[9.5px] leading-snug text-cream/90">
+            {letter ? `EXHIBIT ${letter} — ` : ""}
+            {label}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   if (src) {
     return (
       <div className="group relative aspect-[4/5] overflow-hidden">

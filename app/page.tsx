@@ -165,6 +165,7 @@ export default function Home() {
                   color={accentByCase[pick.case]}
                   isVideo={pick.image.isVideo}
                   src={pick.image.src}
+                  videoSrc={pick.image.videoSrc}
                 />
               ) : null
             )}
