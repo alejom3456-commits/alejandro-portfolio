@@ -2,6 +2,7 @@ export type ExhibitImage = {
   letter: string;
   label: string;
   isVideo?: boolean;
+  src?: string; // path under /public — when set, the real photo renders instead of the placeholder tile
 };
 
 export type CaseSection = {
@@ -43,50 +44,50 @@ export const cases: CaseStudy[] = [
     subtitle: "Trade Marketing & Brand Activation · CeraVe UV Immune+ Gift-With-Purchase",
     client: "La Roche-Posay, CeraVe, Vichy, SkinCeuticals",
     role: "Trade Marketing & BD Intern",
-    timeline: "[pending]",
+    timeline: "January 17 – July 19, 2026 [confirm year]",
     category: "Brand & Trade Marketing",
     accent: "#2B4EA8",
     exhibitLabel: "EXHIBIT A — TRADE MARKETING",
     homeDescription:
-      "Trade marketing execution at the shelf for La Roche-Posay, CeraVe, Vichy and SkinCeuticals — down to the Gift-With-Purchase mechanic.",
+      "Trade marketing execution at the shelf and in person — from the CeraVe Gift-With-Purchase mechanic to a trade fair and live brand activations for La Roche-Posay, Vichy and SkinCeuticals.",
     sections: [
       {
         title: "Context",
         tag: "CONTEXT",
-        body: "La Roche-Posay and CeraVe needed to defend and grow shelf visibility across pharmacy channels — Medipiel, Bella Piel, and Farmatodo — in a category where competing brands were investing heavily in point-of-sale presence. [Specific business context — to confirm]",
+        body: "La Roche-Posay, CeraVe and Vichy needed more brand visibility across pharmacy channels — Medipiel, Bella Piel, and Farmatodo — right as several major launches converged in the same season: La Roche-Posay's new gel cream and its Hyalu B5 update, Vichy's Regen Serum, and CeraVe's full Suncare line — all while still sustaining core products like Effaclar, CeraVe's moisturizers and cleansers, and Vichy's Collagen and Collagel.",
       },
       {
         title: "Challenge",
         tag: "CONTEXT",
-        body: "Converting shelf attention into a trial purchase for CeraVe UV Immune+ specifically, inside a promotional calendar already crowded with other brands' activations. [Specific brief — to confirm]",
+        body: "Converting shelf attention into trial purchase for CeraVe's new Suncare line — including UV Immune+ — in a season where La Roche-Posay's own gel cream and Hyalu B5 launches and Vichy's Regen Serum were competing for the same shelf and marketing attention, on top of the usual pressure from other brands.",
       },
       {
         title: "Insight",
         tag: "CONTEXT",
-        body: "Dermo-cosmetic shoppers often decide at the shelf, without a pharmacist's guidance — visibility and a compelling reason to try something new, like a Gift-With-Purchase, directly shape which product they pick up. [Insight source — to confirm]",
+        body: "The Trade Marketing & BD team went straight to the street — talking to shoppers outside pharmacies — to see this firsthand: dermo-cosmetic shoppers often decide at the shelf, without a pharmacist's guidance, and a compelling reason to try something new, like a Gift-With-Purchase, directly shapes which product they pick up.",
       },
       {
         title: "Strategy",
         tag: "MY ROLE",
         body: "Translated the brand's national activation calendar into a retail-ready plan per channel — what materials each store format needed, how the GWP mechanic would work at checkout, and how to keep visual consistency across very different store environments.",
         images: [
-          { letter: "A", label: "GWP mechanic — concept photo" },
-          { letter: "B", label: "PLV / glorifier concept sketch" },
+          { letter: "A", label: "Hyalu B5 in-store kiosk setup", src: "/images/loreal/hyalu-b5-kiosk.jpg" },
+          { letter: "B", label: "CeraVe podium display setup", src: "/images/loreal/cerave-podium-display.jpg" },
         ],
       },
       {
         title: "Execution",
         tag: "MY ROLE",
-        body: "Coordinated distribution and setup of POP/PLV materials and glorifiers across pharmacy channels, tracked sell-in and sell-out, and consolidated activation reporting for the brand team. [Specific tasks — expand with real detail]",
+        body: "Coordinated distribution and setup of POP/PLV materials and glorifiers across pharmacy channels, tracked sell-in and sell-out, and consolidated activation reporting for the brand team. Beyond the shelf, supported the brand's presence at the Coopidrogas trade fair, joined the division's street-level fieldwork to gather shopper insights directly, ran the Aruma in-store activation at Locatel, helped execute SkinCeuticals luxury activations at strategic Medipiel and Bella Piel locations in Bogotá and Medellín, and took part in broader exhibitions and launches at flagship stores.",
         images: [
-          { letter: "C", label: "Point-of-sale execution — photo" },
-          { letter: "D", label: "Activation walkthrough — video", isVideo: true },
+          { letter: "C", label: "CeraVe booth at the Coopidrogas trade fair", src: "/images/loreal/coopidrogas-booth.jpg" },
+          { letter: "D", label: "Display fixture shaped like the CeraVe moisturizing lotion — Coopidrogas", src: "/images/loreal/coopidrogas-bottle-fixture.jpg" },
         ],
       },
       {
         title: "Results",
         tag: "RESULT — TEAM",
-        body: "Retail coverage and visibility metrics for the activation are reported at the brand level. [Pending: which figures are accurate and shareable, and what part of the result reflects the existing brand strategy versus my specific contribution.]",
+        body: "The Aruma activation at Locatel was the clearest win: daily sell-out went from around 3–4 units to about 20 — nearly a 5x lift. Retail coverage and visibility gains from the Coopidrogas fair, the SkinCeuticals luxury activations, and the broader flagship-store exhibitions are reported at the brand level. [Pending: which of those additional figures are accurate and shareable, and how much reflects existing brand strategy versus my specific contribution.]",
       },
       {
         title: "Learning",
@@ -95,10 +96,13 @@ export const cases: CaseStudy[] = [
       },
     ],
     appendixExhibits: [
-      { letter: "E", label: "Shelf before / after — photo" },
-      { letter: "F", label: "Sell-in tracker sample — photo" },
-      { letter: "G", label: "Team activation day — video", isVideo: true },
-      { letter: "H", label: "Brand reporting excerpt — photo" },
+      { letter: "E", label: "Bella Piel activation team", src: "/images/loreal/bellapiel-team.jpg" },
+      { letter: "F", label: "Farmatodo activation team", src: "/images/loreal/farmatodo-team.jpg" },
+      { letter: "G", label: "Panamericana in-store activation", src: "/images/loreal/panamericana-activation.jpg" },
+      { letter: "H", label: "Vichy Dercos shelf display", src: "/images/loreal/vichy-dercos-shelf.jpg" },
+      { letter: "I", label: "Setting up the CeraVe shelf display", src: "/images/loreal/cerave-shelf-setup.jpg" },
+      { letter: "J", label: "CeraVe Suncare launch display", src: "/images/loreal/cerave-suncare-shelf.jpg" },
+      { letter: "K", label: "Illuminated CeraVe wall — Coopidrogas fair", src: "/images/loreal/coopidrogas-illuminated-wall.jpg" },
     ],
   },
   {

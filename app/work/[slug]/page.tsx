@@ -121,6 +121,7 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                         label={img.label}
                         color={c.accent}
                         isVideo={img.isVideo}
+                        src={img.src}
                       />
                     ))}
                   </div>
@@ -146,6 +147,7 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                   label={img.label}
                   color={c.accent}
                   isVideo={img.isVideo}
+                  src={img.src}
                 />
               ))}
             </div>

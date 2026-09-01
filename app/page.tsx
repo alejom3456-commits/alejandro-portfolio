@@ -48,11 +48,12 @@ export default function Home() {
               <em className="font-serif italic text-coral">the real world.</em>
             </h1>
             <p className="mt-6 max-w-lg font-serif text-[17px] leading-relaxed text-cream/75">
-              I'm graduating in September 2026 from Comunicación Social y Publicidad
-              in Bogotá. Before that first full-time offer, I've already run trade
-              marketing at L'Oréal, taken a product from interview notes to a
-              validated physical game, and built an independent media brand from
-              zero. This is the paper trail.
+              I'm a Communications &amp; Advertising graduate (Bogotá, Class of
+              Sept. 2026) with full-time trade and brand marketing experience
+              at L'Oréal's Dermatological Beauty division — La Roche-Posay,
+              CeraVe, Vichy, and SkinCeuticals. I've also taken a product from
+              interview notes to a validated physical game, and built an
+              independent media brand from zero. This is the paper trail.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
               <a
@@ -151,6 +152,7 @@ export default function Home() {
                   label={pick.image.label}
                   color={accentByCase[pick.case]}
                   isVideo={pick.image.isVideo}
+                  src={pick.image.src}
                 />
               ) : null
             )}
