@@ -25,6 +25,7 @@ export type CaseStudy = {
   accent: string; // hex — this case's identity color
   exhibitLabel: string; // used on the homepage exhibit card, e.g. "EXHIBIT A"
   homeDescription: string;
+  heroImage?: string; // optional real photo shown behind the case hero — only set where real photos exist
   sections: CaseSection[];
   appendixExhibits?: ExhibitImage[];
 };
@@ -48,6 +49,7 @@ export const cases: CaseStudy[] = [
     category: "Brand & Trade Marketing",
     accent: "#2B4EA8",
     exhibitLabel: "EXHIBIT A — TRADE MARKETING",
+    heroImage: "/images/loreal/hyalu-b5-kiosk.jpg",
     homeDescription:
       "Trade marketing execution at the shelf and in person — from the CeraVe Gift-With-Purchase mechanic to a trade fair and live brand activations for La Roche-Posay, Vichy and SkinCeuticals.",
     sections: [
@@ -59,7 +61,7 @@ export const cases: CaseStudy[] = [
       {
         title: "Challenge",
         tag: "CONTEXT",
-        body: "Converting shelf attention into trial purchase for CeraVe's new Suncare line — including UV Immune+ — in a season where La Roche-Posay's own gel cream and Hyalu B5 launches and Vichy's Regen Serum were competing for the same shelf and marketing attention, on top of the usual pressure from other brands.",
+        body: "Converting shelf attention into trial purchase for CeraVe's new Suncare line — including UV Immune+ — in a season where La Roche-Posay's own gel cream and Hyalu B5 launches and Vichy's Regen Serum were competing for the same shelf and marketing attention, on top of the usual pressure from other brands. On top of that, making sure every store actually executed correctly — that PLV and displays were set up as planned, not just shipped — was its own ongoing challenge.",
       },
       {
         title: "Insight",
@@ -69,7 +71,7 @@ export const cases: CaseStudy[] = [
       {
         title: "Strategy",
         tag: "MY ROLE",
-        body: "Translated the brand's national activation calendar into a retail-ready plan per channel — what materials each store format needed, how the GWP mechanic would work at checkout, and how to keep visual consistency across very different store environments.",
+        body: "Translated the brand's national activation calendar into a retail-ready plan per channel — what materials each store format needed, how the GWP mechanic would work at checkout, and how to keep visual consistency across very different store environments. On the commercial side, this meant coordinating directly with the dermoconsejera (in-store beauty advisor) teams and the visita médica (medical-visit) reps, and taking part in a global audit process that included direct conversations with the directors of each division — Dermatological, Mass Consumer, Professional, and others.",
         images: [
           { letter: "A", label: "Hyalu B5 in-store kiosk setup", src: "/images/loreal/hyalu-b5-kiosk.jpg" },
           { letter: "B", label: "CeraVe podium display setup", src: "/images/loreal/cerave-podium-display.jpg" },
@@ -78,7 +80,7 @@ export const cases: CaseStudy[] = [
       {
         title: "Execution",
         tag: "MY ROLE",
-        body: "Coordinated distribution and setup of POP/PLV materials and glorifiers across pharmacy channels, tracked sell-in and sell-out, and consolidated activation reporting for the brand team. Beyond the shelf, supported the brand's presence at the Coopidrogas trade fair, joined the division's street-level fieldwork to gather shopper insights directly, ran the Aruma in-store activation at Locatel, helped execute SkinCeuticals luxury activations at strategic Medipiel and Bella Piel locations in Bogotá and Medellín, and took part in broader exhibitions and launches at flagship stores.",
+        body: "Coordinated distribution and setup of POP/PLV materials and glorifiers across pharmacy channels, tracked sell-in and sell-out, and consolidated activation reporting for the brand team. Beyond the shelf, supported the brand's presence at the Coopidrogas trade fair, organized a street-level fieldwork day for the entire Dermatological division to gather shopper insights directly, ran the Aruma in-store activation at Locatel, helped execute SkinCeuticals luxury activations at strategic Medipiel and Bella Piel locations in Bogotá and Medellín, and took part in broader exhibitions and launches at flagship stores.",
         images: [
           { letter: "C", label: "CeraVe booth at the Coopidrogas trade fair", src: "/images/loreal/coopidrogas-booth.jpg" },
           { letter: "D", label: "Display fixture shaped like the CeraVe moisturizing lotion — Coopidrogas", src: "/images/loreal/coopidrogas-bottle-fixture.jpg" },
@@ -87,7 +89,7 @@ export const cases: CaseStudy[] = [
       {
         title: "Results",
         tag: "RESULT — TEAM",
-        body: "The Aruma activation at Locatel was the clearest win: daily sell-out went from around 3–4 units to about 20 — nearly a 5x lift. Retail coverage and visibility gains from the Coopidrogas fair, the SkinCeuticals luxury activations, and the broader flagship-store exhibitions are reported at the brand level. [Pending: which of those additional figures are accurate and shareable, and how much reflects existing brand strategy versus my specific contribution.]",
+        body: "The number of points of sale reached with general PLV grew by 30%, and the activations I personally led delivered results above 80%. The clearest single example was Aruma at Locatel: daily sell-out went from around 3–4 units to about 20 — nearly a 5x lift. Additional retail coverage and visibility gains from the Coopidrogas fair, the SkinCeuticals luxury activations, and the broader flagship-store exhibitions are reported at the brand level. [Pending: which of those additional figures are accurate and shareable, and how much reflects existing brand strategy versus my specific contribution.]",
       },
       {
         title: "Learning",
@@ -96,13 +98,15 @@ export const cases: CaseStudy[] = [
       },
     ],
     appendixExhibits: [
-      { letter: "E", label: "Bella Piel activation team", src: "/images/loreal/bellapiel-team.jpg" },
-      { letter: "F", label: "Farmatodo activation team", src: "/images/loreal/farmatodo-team.jpg" },
+      { letter: "E", label: "Dermatological division street fieldwork — Bella Piel", src: "/images/loreal/bellapiel-team.jpg" },
+      { letter: "F", label: "Dermatological division street fieldwork — Farmatodo", src: "/images/loreal/farmatodo-team.jpg" },
       { letter: "G", label: "Panamericana in-store activation", src: "/images/loreal/panamericana-activation.jpg" },
       { letter: "H", label: "Vichy Dercos shelf display", src: "/images/loreal/vichy-dercos-shelf.jpg" },
       { letter: "I", label: "Setting up the CeraVe shelf display", src: "/images/loreal/cerave-shelf-setup.jpg" },
       { letter: "J", label: "CeraVe Suncare launch display", src: "/images/loreal/cerave-suncare-shelf.jpg" },
       { letter: "K", label: "Illuminated CeraVe wall — Coopidrogas fair", src: "/images/loreal/coopidrogas-illuminated-wall.jpg" },
+      { letter: "L", label: "Dermatological division street fieldwork — team", src: "/images/loreal/fieldwork-team-2.jpg" },
+      { letter: "M", label: "Dermatological division street fieldwork — team", src: "/images/loreal/fieldwork-team-3.jpg" },
     ],
   },
   {

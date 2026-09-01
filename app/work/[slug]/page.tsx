@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import ColorStripe from "@/components/ColorStripe";
 import ExhibitTile from "@/components/ExhibitTile";
@@ -47,8 +48,27 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
       </header>
 
       {/* CASE HERO */}
-      <section className="bg-inkNavy px-6 py-14 md:px-10 md:py-20">
-        <div className="mx-auto max-w-5xl">
+      <section className="relative overflow-hidden bg-inkNavy px-6 py-14 md:px-10 md:py-20">
+        {c.heroImage && (
+          <>
+            <Image
+              src={c.heroImage}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-40"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(20,24,31,0.65) 0%, rgba(20,24,31,0.88) 55%, #14181F 100%)",
+              }}
+            />
+          </>
+        )}
+        <div className="relative mx-auto max-w-5xl">
           <span
             className="inline-block rounded-sm px-3 py-1.5 font-grotesk text-[11px] font-bold uppercase tracking-[0.1em] text-cream"
             style={{ backgroundColor: c.accent }}

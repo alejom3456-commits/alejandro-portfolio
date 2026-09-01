@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import ColorStripe from "@/components/ColorStripe";
 import FieldLabel from "@/components/FieldLabel";
 import Stamp from "@/components/Stamp";
@@ -110,6 +111,17 @@ export default function Home() {
                 className="group flex flex-col overflow-hidden rounded-sm border border-rule bg-creamCard transition hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="h-[6px] w-full" style={{ backgroundColor: c.accent }} />
+                {c.heroImage && (
+                  <div className="relative h-40 w-full overflow-hidden">
+                    <Image
+                      src={c.heroImage}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                )}
                 <div className="flex flex-1 flex-col gap-4 p-6">
                   <span
                     className="w-fit rounded-sm px-2.5 py-1 font-grotesk text-[10px] font-bold uppercase tracking-[0.1em] text-cream"
