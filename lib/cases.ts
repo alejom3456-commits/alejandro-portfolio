@@ -42,10 +42,10 @@ export const cases: CaseStudy[] = [
     caseNumber: "Case 01 of 03",
     categoryTag: "CASE 01 — BRAND & TRADE MARKETING",
     title: "L'Oréal — Dermatological Beauty",
-    subtitle: "Trade Marketing & Brand Activation · CeraVe UV Immune+ Gift-With-Purchase",
+    subtitle: "Trade Marketing & Brand Activation",
     client: "La Roche-Posay, CeraVe, Vichy, SkinCeuticals",
     role: "Trade Marketing & BD Intern",
-    timeline: "January 17 – July 19, 2026 [confirm year]",
+    timeline: "January 17 – July 19, 2026",
     category: "Brand & Trade Marketing",
     accent: "#2B4EA8",
     exhibitLabel: "EXHIBIT A — TRADE MARKETING",
@@ -66,7 +66,7 @@ export const cases: CaseStudy[] = [
       {
         title: "Insight",
         tag: "CONTEXT",
-        body: "The Trade Marketing & BD team went straight to the street — talking to shoppers outside pharmacies — to see this firsthand: dermo-cosmetic shoppers often decide at the shelf, without a pharmacist's guidance, and a compelling reason to try something new, like a Gift-With-Purchase, directly shapes which product they pick up.",
+        body: "The Trade Marketing & BD team went straight to the street — talking to shoppers outside pharmacies — to see this firsthand: dermo-cosmetic shoppers often decide at the shelf, without a pharmacist's guidance, and a compelling reason to try something new, like a Gift-With-Purchase, directly shapes which product they pick up. Two other patterns stood out: AI is increasingly shaping how shoppers research dermo-cosmetic purchases before they even reach the store, and interactive, hands-on implementations with the public consistently outperformed passive displays.",
       },
       {
         title: "Strategy",
@@ -89,7 +89,7 @@ export const cases: CaseStudy[] = [
       {
         title: "Results",
         tag: "RESULT — TEAM",
-        body: "The number of points of sale reached with general PLV grew by 30%, and the activations I personally led delivered results above 80%. The clearest single example was Aruma at Locatel: daily sell-out went from around 3–4 units to about 20 — nearly a 5x lift. Additional retail coverage and visibility gains from the Coopidrogas fair, the SkinCeuticals luxury activations, and the broader flagship-store exhibitions are reported at the brand level. [Pending: which of those additional figures are accurate and shareable, and how much reflects existing brand strategy versus my specific contribution.]",
+        body: "The number of points of sale reached with general PLV grew by 30%, and the activations I personally led delivered results above 80%. The clearest single example was Aruma at Locatel: daily sell-out went from around 3–4 units to about 20 — nearly a 5x lift. Additional retail coverage and visibility gains from the Coopidrogas fair, the SkinCeuticals luxury activations, and the broader flagship-store exhibitions are reported at the brand level. My specific contribution there was hands-on: supporting the stand's logistics and creative implementation, staffing decisions for the fair, and making sure the event executed correctly on the ground — and for the activations, the same, plus coordinating with the commercial team and the sales force to run them.",
       },
       {
         title: "Learning",
