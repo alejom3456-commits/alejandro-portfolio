@@ -90,6 +90,42 @@ const EPA_ITEMS: { src: string; left: string; top: string; width: number; delay:
   { src: "/images/epa/epa-laura-pose.png", left: "82%", top: "32%", width: 58, delay: "1.4s", duration: "7.2s", rotate: 3 },
 ];
 
+// More EPA characters "hanging" alongside the write-up itself, in the page
+// margins beside the text column — desktop only, so they never sit on top
+// of the copy on narrow screens.
+const EPA_BODY_ITEMS: { src: string; left: string; top: string; width: number; delay: string; duration: string; rotate: number }[] = [
+  { src: "/images/epa/epa-pointer.png", left: "2%", top: "4%", width: 62, delay: "0.3s", duration: "7s", rotate: -4 },
+  { src: "/images/epa/epa-thumbsup.png", left: "94%", top: "10%", width: 58, delay: "1.1s", duration: "6.6s", rotate: 5 },
+  { src: "/images/epa/epa-headphones.png", left: "3%", top: "30%", width: 50, delay: "0.7s", duration: "7.4s", rotate: -3 },
+  { src: "/images/epa/epa-laura-pose.png", left: "93%", top: "36%", width: 60, delay: "1.6s", duration: "6.9s", rotate: 4 },
+  { src: "/images/epa/epa-chef.png", left: "2%", top: "56%", width: 52, delay: "0.9s", duration: "7.1s", rotate: -5 },
+  { src: "/images/epa/epa-family.png", left: "92%", top: "62%", width: 66, delay: "1.3s", duration: "6.7s", rotate: 3 },
+  { src: "/images/epa/epa-wave-trio.png", left: "1%", top: "82%", width: 96, delay: "0.5s", duration: "7.6s", rotate: -2 },
+  { src: "/images/epa/epa-thumbsup.png", left: "92%", top: "88%", width: 56, delay: "1.8s", duration: "6.5s", rotate: 4 },
+];
+
+// The full Riiing/EPA pitch deck — hung here in its native landscape
+// aspect ratio so nothing gets cropped the way it did in the portrait
+// exhibit tiles.
+const EPA_SLIDES: { src: string; caption: string }[] = [
+  { src: "/images/epa/slides/slide-01.jpg", caption: "01 — Title" },
+  { src: "/images/epa/slides/slide-02.jpg", caption: "02 — Origin: Antonio" },
+  { src: "/images/epa/slides/slide-03.jpg", caption: "03 — Why it matters" },
+  { src: "/images/epa/slides/slide-04.jpg", caption: "04 — Hypothesis 1 (kids + parents) — invalidated" },
+  { src: "/images/epa/slides/slide-05.jpg", caption: "05 — Client archetype: Laura" },
+  { src: "/images/epa/slides/slide-06.jpg", caption: "06 — Archetype validation" },
+  { src: "/images/epa/slides/slide-07.jpg", caption: "07 — Solution hypothesis: the card game" },
+  { src: "/images/epa/slides/slide-08.jpg", caption: "08 — Psychologist validation" },
+  { src: "/images/epa/slides/slide-09.jpg", caption: "09 — The four card categories" },
+  { src: "/images/epa/slides/slide-10.jpg", caption: "10 — Card examples & how the game is won" },
+  { src: "/images/epa/slides/slide-11.jpg", caption: "11 — Play-test validation, round 1" },
+  { src: "/images/epa/slides/slide-12.jpg", caption: "12 — Play-test validation, round 2" },
+  { src: "/images/epa/slides/slide-13.jpg", caption: "13 — Overall validation summary" },
+  { src: "/images/epa/slides/slide-14.jpg", caption: "14 — B2B market exploration" },
+  { src: "/images/epa/slides/slide-15.jpg", caption: "15 — What's next for EPA" },
+  { src: "/images/epa/slides/slide-16.jpg", caption: "16 — Closing" },
+];
+
 export default function CaseStudyPage({ params }: { params: { slug: string } }) {
   const c = getCase(params.slug);
   if (!c) return notFound();
@@ -215,8 +251,29 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
       </section>
 
       {/* BODY: sticky rail + sections */}
-      <section className="bg-cream px-6 py-16 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-[180px_1fr]">
+      <section className="relative overflow-hidden bg-cream px-6 py-16 md:px-10 md:py-20">
+        {c.slug === "epa" && (
+          <div className="pointer-events-none absolute inset-0 z-0 hidden overflow-hidden md:block" aria-hidden="true">
+            {EPA_BODY_ITEMS.map((item, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={item.src}
+                alt=""
+                className="epa-chip epa-chip-body"
+                style={{
+                  left: item.left,
+                  top: item.top,
+                  width: item.width,
+                  animationDelay: item.delay,
+                  animationDuration: item.duration,
+                  ["--epa-rotate" as string]: `${item.rotate}deg`,
+                }}
+              />
+            ))}
+          </div>
+        )}
+        <div className="relative z-10 mx-auto grid max-w-5xl gap-12 md:grid-cols-[180px_1fr]">
           {/* Sticky field rail */}
           <aside className="hidden md:block">
             <div className="sticky top-[28px] flex flex-col gap-4">
@@ -285,6 +342,41 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                   src={img.src}
                   videoSrc={img.videoSrc}
                 />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FULL PRESENTATION — landscape, native aspect ratio */}
+      {c.slug === "epa" && (
+        <section className="bg-inkNavy px-6 py-16 md:px-10 md:py-20">
+          <div className="mx-auto max-w-5xl">
+            <h3 className="mb-2 font-grotesk text-[12px] font-bold uppercase tracking-[0.12em] text-cream/50">
+              Full Presentation
+            </h3>
+            <p className="mb-8 max-w-2xl font-serif text-[14.5px] leading-relaxed text-cream/70">
+              The full Riiing / EPA pitch deck, shown here at its original landscape proportions
+              rather than cropped into a portrait tile.
+            </p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {EPA_SLIDES.map((slide) => (
+                <div key={slide.src} className="overflow-hidden rounded-sm border border-cream/10 bg-black">
+                  <div className="relative aspect-video w-full">
+                    <Image
+                      src={slide.src}
+                      alt={slide.caption}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="px-3 py-2">
+                    <span className="font-grotesk text-[10.5px] uppercase tracking-[0.08em] text-cream/60">
+                      {slide.caption}
+                    </span>
+                  </div>
+                </div>
               ))}
             </div>
           </div>

@@ -128,15 +128,15 @@ export const cases: CaseStudy[] = [
     categoryTag: "CASE 02 — CONSUMER INSIGHT & PRODUCT",
     title: "EPA",
     subtitle: "Riiing — Consumer Insight → Product Design → Psychological Validation",
-    client: "Riiing (own venture — thesis product)",
-    role: "Founder — research, product design & validation",
+    client: "Riiing (own venture — undergraduate thesis)",
+    role: "Sole creator — research, game design, brand & business model",
     timeline: "2021 – 2025 · thesis submitted Nov. 2025",
     category: "Consumer Insight & Product",
     accent: "#E2492B",
     exhibitLabel: "EXHIBIT B — INSIGHT & PRODUCT",
     logo: "/images/epa/riiing-logo.png",
     homeDescription:
-      "A physical card game — and Riiing, the venture behind it — built to break the ice and combat anticipatory anxiety among university students, validated through interviews, live play sessions, and five psychologists from concept to prototype.",
+      "A physical card game — and Riiing, the venture behind it — designed solo as an undergraduate thesis, from consumer research and game design through to brand identity and business model, validated with real interviews, live play sessions, and five psychologists.",
     sections: [
       {
         title: "Context",
@@ -156,7 +156,7 @@ export const cases: CaseStudy[] = [
       {
         title: "Strategy",
         tag: "MY ROLE",
-        body: "Sized the corrected market with a TAM-SAM-SOM model — roughly 834,000 undergraduates in Bogotá, a ~750,000 SAM, and a 45,000–90,000 reachable SOM — and chose a physical card game over an app or a wellness campaign, built around gradual exposure instead of forced interaction, so the format itself does the work of lowering the stakes.",
+        body: "Sized the corrected market himself with a TAM-SAM-SOM model — roughly 834,000 undergraduates in Bogotá, a ~750,000 SAM, and a 45,000–90,000 reachable SOM — and chose a physical card game over an app or a wellness campaign, built around gradual exposure instead of forced interaction, so the format itself does the work of lowering the stakes. The physical game is the first step: the plan is for an app and website to become the next layer of Riiing, extending EPA's presence beyond the table.",
         images: [
           { letter: "A", label: "EPA card categories — Descongélese, Sin miedo al éxito, Sin pelos en la lengua, Misterio", src: "/images/epa/epa-cards-categories.jpg" },
           { letter: "B", label: "Challenge card examples", src: "/images/epa/epa-cards-challenges.jpg" },
@@ -179,12 +179,12 @@ export const cases: CaseStudy[] = [
       {
         title: "Results",
         tag: "RESULT — TEAM",
-        body: "Five psychologists validated the concept end-to-end — problem, mechanics and ethics — confirming EPA reduces anticipatory anxiety without forcing exposure, and 10 of 15 people in follow-up validation confirmed the experience matched what it promised. Across both live sessions, participants reported feeling more comfortable talking to people they'd never met, and the psychologists observing directly noted real inclusion behavior — laughing, listening, collaborating — not just polite participation.",
+        body: "Validation covered two separate things: whether the game itself was well built, and whether it actually did what it set out to do. On the design side, the two play-test rounds confirmed the rules were clear, the pacing worked, and groups mixed rather than staying static. On the impact side, five psychologists validated the concept end-to-end — problem, mechanics and ethics — confirming EPA reduces anticipatory anxiety without forcing exposure, builds real bonds rather than just filling time, and strengthens sense of community and belonging, not only conversation. 10 of 15 people in follow-up validation confirmed the experience matched what it promised, and across both live sessions the psychologists observing directly noted real inclusion behavior — laughing, listening, collaborating — not just polite participation.",
       },
       {
         title: "Learning",
         tag: "MY ROLE",
-        body: "The sharpest lesson was about the market, not the product: the original kids-and-parents concept felt right but failed validation, and the harder, more useful move was killing it before falling in love with it. On the product side, the psychologists' reframe stuck — there's no such thing as a fixed 'introvert,' only contexts that make people feel safe enough to try, and a game can be designed on purpose to be that context.",
+        body: "The sharpest lesson was about the market, not the product: the original kids-and-parents concept felt right but failed validation, and the harder, more useful move was killing it before falling in love with it. On the product side, the psychologists' reframe stuck — there's no such thing as a fixed 'introvert,' only contexts that make people feel safe enough to try, and a game can be designed on purpose to be that context. As the sole creator of the whole project — research, game design, brand and business model, as an undergraduate thesis — the biggest personal takeaway was building comfort owning every layer of a product, not just the creative part.",
       },
     ],
     appendixExhibits: [
