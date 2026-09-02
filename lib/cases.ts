@@ -130,12 +130,13 @@ export const cases: CaseStudy[] = [
     title: "EPA",
     subtitle: "Riiing — Consumer Insight → Product Design → Psychological Validation",
     client: "Riiing (own venture — undergraduate thesis)",
-    role: "Sole creator — research, game design, brand & business model",
+    role: "Sole creator, start to finish — research, game design, product validation, brand identity & business model",
     timeline: "2021 – 2025 · thesis submitted Nov. 2025",
     category: "Consumer Insight & Product",
     accent: "#E2492B",
     exhibitLabel: "EXHIBIT B — INSIGHT & PRODUCT",
     logo: "/images/epa/riiing-logo.png",
+    heroImage: "/images/epa/epa-lineup-hero.jpg",
     homeDescription:
       "A physical card game — and Riiing, the venture behind it — designed solo as an undergraduate thesis, from consumer research and game design through to brand identity and business model, validated with real interviews, live play sessions, and five psychologists.",
     sections: [
@@ -158,7 +159,7 @@ export const cases: CaseStudy[] = [
         title: "Buyer Persona",
         tag: "MY ROLE",
         body: "Interviews and validation converged on one archetype: Laura, 20, studying International Relations in Bogotá. She's sociable but anxious — first contact makes her nervous, she fears rejection and quietly avoids the moment, and she wants to belong without feeling judged. She isn't chasing more followers; she wants real connections without filters. Laura is both the user and the buyer EPA was designed around — not a hypothetical persona, but the direct synthesis of the 20 interviews and the psychologists' input.",
-        images: [{ letter: "P", label: "Buyer / user persona — Laura, 20", src: "/images/epa/epa-laura-pose.png" }],
+        images: [{ letter: "P", label: "Buyer / user persona — Laura, 20 (from the thesis deck)", src: "/images/epa/slides/slide-05.jpg", landscape: true }],
       },
       {
         title: "Strategy",
