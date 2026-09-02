@@ -4,6 +4,7 @@ export type ExhibitImage = {
   isVideo?: boolean;
   src?: string; // path under /public — when set, the real photo (or video poster) renders instead of the placeholder tile
   videoSrc?: string; // path under /public to an .mp4 — when set together with isVideo, renders a real playable video
+  landscape?: boolean; // set when src is itself a landscape image (a slide/screenshot) so it isn't cropped into the usual portrait tile
 };
 
 export type CaseSection = {
@@ -154,9 +155,15 @@ export const cases: CaseStudy[] = [
         body: "Five psychologists — organizational, clinical and educational — pushed back on the 'introvert vs. extrovert' framing entirely: comfort with strangers depends on context, not fixed personality, and direct, forced exposure makes anticipatory anxiety worse, not better. The validated numbers backed this up: undergraduates prefer a known group (4.1/5), report positive results after taking the first step to socialize (3.5/5), rate acceptance as important (3.75/5), and still experience real anticipatory anxiety (3.1/5) despite low perceived loneliness (2/5) — people who look fine from the outside, still avoiding the first move.",
       },
       {
+        title: "Buyer Persona",
+        tag: "MY ROLE",
+        body: "Interviews and validation converged on one archetype: Laura, 20, studying International Relations in Bogotá. She's sociable but anxious — first contact makes her nervous, she fears rejection and quietly avoids the moment, and she wants to belong without feeling judged. She isn't chasing more followers; she wants real connections without filters. Laura is both the user and the buyer EPA was designed around — not a hypothetical persona, but the direct synthesis of the 20 interviews and the psychologists' input.",
+        images: [{ letter: "P", label: "Buyer / user persona — Laura, 20", src: "/images/epa/epa-laura-pose.png" }],
+      },
+      {
         title: "Strategy",
         tag: "MY ROLE",
-        body: "Sized the corrected market himself with a TAM-SAM-SOM model — roughly 834,000 undergraduates in Bogotá, a ~750,000 SAM, and a 45,000–90,000 reachable SOM — and chose a physical card game over an app or a wellness campaign, built around gradual exposure instead of forced interaction, so the format itself does the work of lowering the stakes. The physical game is the first step: the plan is for an app and website to become the next layer of Riiing, extending EPA's presence beyond the table.",
+        body: "Sized the corrected market himself with a TAM-SAM-SOM model — roughly 834,000 undergraduates in Bogotá, a ~750,000 SAM, and a 45,000–90,000 reachable SOM — and chose a physical card game over an app or a wellness campaign, built around gradual exposure instead of forced interaction, so the format itself does the work of lowering the stakes. Business model: EPA is the entry point, not the whole business — the go-to-market is B2B first, selling the experience into university welcome weeks, onboarding, orientations, career fairs, support groups and campus networking events, where an institution books the experience for a group rather than one person buying a single deck. Detailed costing and pricing are still being finalized, but validated demand — a community that wants to interact and keeps coming back — points to a workable fit. From there, the long-term vision is for Riiing to grow into a full events and networking company: helping people who are afraid to show up to an event alone actually go, and meet new people at events curated around what they're genuinely interested in, with an app and website as the next layer connecting the physical game to that larger experience.",
         images: [
           { letter: "A", label: "EPA card categories — Descongélese, Sin miedo al éxito, Sin pelos en la lengua, Misterio", src: "/images/epa/epa-cards-categories.jpg" },
           { letter: "B", label: "Challenge card examples", src: "/images/epa/epa-cards-challenges.jpg" },
@@ -172,14 +179,14 @@ export const cases: CaseStudy[] = [
         tag: "MY ROLE",
         body: "Iterated the prototype through two full play sessions with real groups — 6 people aged 19–21, then 9 people aged 20–50 — tracking how fast people understood the rules, how many lost their embarrassment before the third card, and whether groups actually mixed. The second round improved on every measure: rule comprehension in under a minute rose from 4 of 6 to 6 of 9 participants, the number of people who ended up talking to total strangers roughly doubled, and conversations kept going past what the cards even asked for.",
         images: [
-          { letter: "C", label: "Play-test validation — round 1 (19–21 years, n=6)", src: "/images/epa/epa-validation-round1.jpg" },
-          { letter: "D", label: "Play-test validation — round 2 (20–50 years, n=9)", src: "/images/epa/epa-validation-round2.jpg" },
+          { letter: "C", label: "Play-test validation — round 1 (19–21 years, n=6)", src: "/images/epa/epa-validation-round1.jpg", landscape: true },
+          { letter: "D", label: "Play-test validation — round 2 (20–50 years, n=9)", src: "/images/epa/epa-validation-round2.jpg", landscape: true },
         ],
       },
       {
         title: "Results",
         tag: "RESULT — TEAM",
-        body: "Validation covered two separate things: whether the game itself was well built, and whether it actually did what it set out to do. On the design side, the two play-test rounds confirmed the rules were clear, the pacing worked, and groups mixed rather than staying static. On the impact side, five psychologists validated the concept end-to-end — problem, mechanics and ethics — confirming EPA reduces anticipatory anxiety without forcing exposure, builds real bonds rather than just filling time, and strengthens sense of community and belonging, not only conversation. 10 of 15 people in follow-up validation confirmed the experience matched what it promised, and across both live sessions the psychologists observing directly noted real inclusion behavior — laughing, listening, collaborating — not just polite participation.",
+        body: "Validation ran in four stages, each testing something different. Stage 1 — problem validation: 20 interviews with self-described sociable undergraduates confirmed the anxiety and avoidance pattern was real, not assumed. Stage 2 — concept validation: five psychologists (organizational, clinical and educational) reviewed the problem, the mechanics and the ethics of the fix itself, confirming EPA reduces anticipatory anxiety without forcing exposure — a real risk they flagged early and that shaped the final design. Stage 3 — product validation: two live play-test rounds (6 people aged 19–21, then 9 people aged 20–50) confirmed the game itself worked — rules were clear, pacing held, and groups that started as strangers actually mixed, with the psychologists observing both sessions directly noting real inclusion behavior (laughing, listening, collaborating), not just polite participation. Stage 4 — outcome confirmation: in follow-up validation after the sessions, 10 of 15 participants confirmed the experience delivered on what it promised — building real bonds and a sense of belonging, not just filling time. Read together, the four stages validate different layers of the same claim: the problem is real, the fix is sound in principle, the product works in practice, and the people who played it say it delivered.",
       },
       {
         title: "Learning",

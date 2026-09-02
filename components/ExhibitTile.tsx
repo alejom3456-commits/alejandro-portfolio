@@ -8,12 +8,18 @@ export type ExhibitItem = {
   isVideo?: boolean;
   src?: string;
   videoSrc?: string;
+  // When the source image is itself landscape (a slide, a screenshot),
+  // show it uncropped in its native proportions instead of force-fitting
+  // it into the usual portrait 4:5 tile.
+  landscape?: boolean;
 };
 
-export default function ExhibitTile({ letter, label, color, isVideo = false, src, videoSrc }: ExhibitItem) {
+export default function ExhibitTile({ letter, label, color, isVideo = false, src, videoSrc, landscape = false }: ExhibitItem) {
+  const aspectClass = landscape ? "aspect-video" : "aspect-[4/5]";
+
   if (isVideo && videoSrc) {
     return (
-      <div className="group relative aspect-[4/5] overflow-hidden bg-inkNavy">
+      <div className={`group relative ${aspectClass} overflow-hidden bg-inkNavy`}>
         <video
           controls
           preload="none"
@@ -39,13 +45,17 @@ export default function ExhibitTile({ letter, label, color, isVideo = false, src
 
   if (src) {
     return (
-      <div className="group relative aspect-[4/5] overflow-hidden">
+      <div className={`group relative ${aspectClass} overflow-hidden ${landscape ? "bg-black" : ""}`}>
         <Image
           src={src}
           alt={label}
           fill
           sizes="(max-width: 768px) 50vw, 20vw"
-          className="object-cover transition duration-300 group-hover:scale-105"
+          className={
+            landscape
+              ? "object-contain transition duration-300 group-hover:scale-105"
+              : "object-cover transition duration-300 group-hover:scale-105"
+          }
         />
         <div
           className="absolute inset-x-0 bottom-0 flex items-center gap-1.5 p-2"
@@ -63,7 +73,7 @@ export default function ExhibitTile({ letter, label, color, isVideo = false, src
 
   return (
     <div
-      className="flex aspect-[4/5] flex-col items-center justify-center gap-2.5 p-2.5 text-center"
+      className={`flex ${aspectClass} flex-col items-center justify-center gap-2.5 p-2.5 text-center`}
       style={{ background: `linear-gradient(155deg, ${color}, #14181F)` }}
     >
       {isVideo ? (

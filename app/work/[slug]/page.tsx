@@ -88,6 +88,11 @@ const EPA_ITEMS: { src: string; left: string; top: string; width: number; delay:
   { src: "/images/epa/epa-chef.png", left: "94%", top: "55%", width: 54, delay: "1.6s", duration: "7.5s", rotate: 5 },
   { src: "/images/epa/epa-family.png", left: "6%", top: "78%", width: 70, delay: "0.9s", duration: "6.8s", rotate: -3 },
   { src: "/images/epa/epa-laura-pose.png", left: "82%", top: "32%", width: 58, delay: "1.4s", duration: "7.2s", rotate: 3 },
+  { src: "/images/epa/epa-lineup.png", left: "44%", top: "5%", width: 92, delay: "0.4s", duration: "7.8s", rotate: -2 },
+  { src: "/images/epa/epa-headphones.png", left: "24%", top: "86%", width: 48, delay: "1.7s", duration: "6.4s", rotate: 4 },
+  { src: "/images/epa/epa-chef.png", left: "56%", top: "82%", width: 50, delay: "0.8s", duration: "7.3s", rotate: -5 },
+  { src: "/images/epa/epa-thumbsup.png", left: "40%", top: "38%", width: 44, delay: "2.2s", duration: "6.9s", rotate: 3 },
+  { src: "/images/epa/epa-pointer.png", left: "60%", top: "14%", width: 42, delay: "1.1s", duration: "7.6s", rotate: -4 },
 ];
 
 // More EPA characters "hanging" alongside the write-up itself, in the page
@@ -102,6 +107,13 @@ const EPA_BODY_ITEMS: { src: string; left: string; top: string; width: number; d
   { src: "/images/epa/epa-family.png", left: "92%", top: "62%", width: 66, delay: "1.3s", duration: "6.7s", rotate: 3 },
   { src: "/images/epa/epa-wave-trio.png", left: "1%", top: "82%", width: 96, delay: "0.5s", duration: "7.6s", rotate: -2 },
   { src: "/images/epa/epa-thumbsup.png", left: "92%", top: "88%", width: 56, delay: "1.8s", duration: "6.5s", rotate: 4 },
+  { src: "/images/epa/epa-lineup.png", left: "3%", top: "17%", width: 82, delay: "0.6s", duration: "7.3s", rotate: -2 },
+  { src: "/images/epa/epa-wave-trio.png", left: "88%", top: "23%", width: 86, delay: "1.4s", duration: "6.8s", rotate: 2 },
+  { src: "/images/epa/epa-pointer.png", left: "4%", top: "46%", width: 50, delay: "0.4s", duration: "7.5s", rotate: -3 },
+  { src: "/images/epa/epa-headphones.png", left: "89%", top: "49%", width: 48, delay: "1.2s", duration: "6.7s", rotate: 4 },
+  { src: "/images/epa/epa-chef.png", left: "3%", top: "70%", width: 50, delay: "0.8s", duration: "7.2s", rotate: -4 },
+  { src: "/images/epa/epa-laura-pose.png", left: "89%", top: "75%", width: 56, delay: "1.5s", duration: "6.9s", rotate: 3 },
+  { src: "/images/epa/epa-family.png", left: "4%", top: "94%", width: 62, delay: "1.0s", duration: "7.4s", rotate: -2 },
 ];
 
 // The full Riiing/EPA pitch deck — hung here in its native landscape
@@ -314,6 +326,7 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                         isVideo={img.isVideo}
                         src={img.src}
                         videoSrc={img.videoSrc}
+                        landscape={img.landscape}
                       />
                     ))}
                   </div>
@@ -341,6 +354,7 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                   isVideo={img.isVideo}
                   src={img.src}
                   videoSrc={img.videoSrc}
+                  landscape={img.landscape}
                 />
               ))}
             </div>
