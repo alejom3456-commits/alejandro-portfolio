@@ -22,8 +22,73 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 function tagColor(tag: CaseSection["tag"], accent: string) {
   if (tag === "RESULT — TEAM") return "#E2492B";
   if (tag === "MY ROLE") return accent;
-  return "#8A8577";
+  if (tag === "CHALLENGE") return "#4A4740";
+  if (tag === "INSIGHT") return "#6B7280";
+  return "#8A8577"; // CONTEXT
 }
+
+// Generic bottle/tube silhouettes in brand-associated colors — drawn shapes,
+// not reproductions of any product photo, so they're safe to use as decoration.
+type BottleKind = "dropper" | "pump" | "tube" | "spray";
+
+function ProductSilhouette({ kind, body, cap }: { kind: BottleKind; body: string; cap: string }) {
+  if (kind === "pump") {
+    return (
+      <svg viewBox="0 0 60 100" width="100%" height="100%">
+        <rect x="14" y="30" width="32" height="60" rx="6" fill={body} />
+        <rect x="20" y="14" width="20" height="18" rx="3" fill={cap} />
+        <rect x="18" y="8" width="20" height="6" rx="2" fill={cap} />
+        <rect x="26" y="0" width="8" height="10" rx="2" fill={cap} />
+      </svg>
+    );
+  }
+  if (kind === "dropper") {
+    return (
+      <svg viewBox="0 0 60 100" width="100%" height="100%">
+        <rect x="16" y="34" width="28" height="56" rx="5" fill={body} />
+        <rect x="20" y="14" width="20" height="22" rx="3" fill={cap} />
+        <path d="M26 2 L34 2 L32 16 L28 16 Z" fill={cap} />
+      </svg>
+    );
+  }
+  if (kind === "tube") {
+    return (
+      <svg viewBox="0 0 60 100" width="100%" height="100%">
+        <path d="M18 30 L42 30 L38 92 Q30 98 22 92 Z" fill={body} />
+        <rect x="20" y="10" width="20" height="22" rx="4" fill={cap} />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 60 100" width="100%" height="100%">
+      <rect x="14" y="26" width="32" height="64" rx="8" fill={body} />
+      <rect x="22" y="10" width="16" height="18" rx="3" fill={cap} />
+      <rect x="29" y="-1" width="14" height="10" rx="2" fill={cap} transform="rotate(18 29 4)" />
+    </svg>
+  );
+}
+
+const RAIN_ITEMS: { kind: BottleKind; body: string; cap: string; left: string; size: number; delay: string; duration: string }[] = [
+  { kind: "dropper", body: "#3E8FD0", cap: "#EDEDED", left: "4%", size: 46, delay: "0s", duration: "17s" }, // La Roche-Posay blue
+  { kind: "tube", body: "#1FA79A", cap: "#F4EEDF", left: "18%", size: 40, delay: "5s", duration: "20s" }, // Vichy teal
+  { kind: "pump", body: "#F4EEDF", cap: "#1FA79A", left: "34%", size: 38, delay: "10s", duration: "16s" }, // CeraVe white/teal
+  { kind: "spray", body: "#F2941A", cap: "#F4EEDF", left: "50%", size: 44, delay: "2s", duration: "21s" }, // Anthelios orange
+  { kind: "dropper", body: "#A85C1E", cap: "#1B1B18", left: "66%", size: 36, delay: "13s", duration: "18s" }, // SkinCeuticals amber
+  { kind: "pump", body: "#F4EEDF", cap: "#3E8FD0", left: "80%", size: 42, delay: "7s", duration: "19s" }, // CeraVe white/blue
+  { kind: "tube", body: "#C8102E", cap: "#F4EEDF", left: "92%", size: 38, delay: "3s", duration: "22s" }, // Vichy Collagen red
+];
+
+// EPA's own brand characters — illustrations made by Alejandro for the Riiing/EPA
+// thesis project — used here as a gentle floating decoration on the case hero.
+const EPA_ITEMS: { src: string; left: string; top: string; width: number; delay: string; duration: string; rotate: number }[] = [
+  { src: "/images/epa/epa-thumbsup.png", left: "3%", top: "8%", width: 66, delay: "0s", duration: "6s", rotate: -6 },
+  { src: "/images/epa/epa-pointer.png", left: "13%", top: "58%", width: 60, delay: "1.2s", duration: "7s", rotate: 4 },
+  { src: "/images/epa/epa-headphones.png", left: "89%", top: "10%", width: 52, delay: "0.6s", duration: "6.5s", rotate: -4 },
+  { src: "/images/epa/epa-wave-trio.png", left: "72%", top: "62%", width: 120, delay: "2s", duration: "8s", rotate: 2 },
+  { src: "/images/epa/epa-chef.png", left: "94%", top: "55%", width: 54, delay: "1.6s", duration: "7.5s", rotate: 5 },
+  { src: "/images/epa/epa-family.png", left: "6%", top: "78%", width: 70, delay: "0.9s", duration: "6.8s", rotate: -3 },
+  { src: "/images/epa/epa-laura-pose.png", left: "82%", top: "32%", width: 58, delay: "1.4s", duration: "7.2s", rotate: 3 },
+];
 
 export default function CaseStudyPage({ params }: { params: { slug: string } }) {
   const c = getCase(params.slug);
@@ -68,7 +133,47 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
             />
           </>
         )}
-        <div className="relative mx-auto max-w-5xl">
+        {c.slug === "loreal" && (
+          <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden="true">
+            {RAIN_ITEMS.map((item, i) => (
+              <div
+                key={i}
+                className="rain-chip"
+                style={{
+                  left: item.left,
+                  width: item.size,
+                  height: Math.round(item.size * (100 / 60)),
+                  animationDelay: item.delay,
+                  animationDuration: item.duration,
+                }}
+              >
+                <ProductSilhouette kind={item.kind} body={item.body} cap={item.cap} />
+              </div>
+            ))}
+          </div>
+        )}
+        {c.slug === "epa" && (
+          <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden="true">
+            {EPA_ITEMS.map((item, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={item.src}
+                alt=""
+                className="epa-chip"
+                style={{
+                  left: item.left,
+                  top: item.top,
+                  width: item.width,
+                  animationDelay: item.delay,
+                  animationDuration: item.duration,
+                  ["--epa-rotate" as string]: `${item.rotate}deg`,
+                }}
+              />
+            ))}
+          </div>
+        )}
+        <div className="relative z-10 mx-auto max-w-5xl">
           <div className="flex items-start justify-between gap-4">
             <span
               className="inline-block rounded-sm px-3 py-1.5 font-grotesk text-[11px] font-bold uppercase tracking-[0.1em] text-cream"

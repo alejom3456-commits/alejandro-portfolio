@@ -8,7 +8,7 @@ export type ExhibitImage = {
 
 export type CaseSection = {
   title: string;
-  tag: "CONTEXT" | "MY ROLE" | "RESULT — TEAM";
+  tag: "CONTEXT" | "CHALLENGE" | "INSIGHT" | "MY ROLE" | "RESULT — TEAM";
   body: string;
   images?: ExhibitImage[];
 };
@@ -33,10 +33,13 @@ export type CaseStudy = {
 };
 
 // Tag color logic (kept consistent across every case):
-//  CONTEXT        -> neutral gray  (#8A8577) — set in the page renderer
+//  CONTEXT        -> warm taupe gray (#8A8577) — the setup / background
+//  CHALLENGE      -> dark espresso   (#4A4740) — the tension / problem
+//  INSIGHT        -> cool slate gray (#6B7280) — the finding / clarity
 //  MY ROLE        -> this case's own accent color
 //  RESULT — TEAM  -> always coral (#E2492B) — a consistent "verify before publishing" flag
 //                    across the whole site, regardless of the case's own color.
+// All set in the page renderer's tagColor() function.
 
 export const cases: CaseStudy[] = [
   {
@@ -51,7 +54,7 @@ export const cases: CaseStudy[] = [
     category: "Brand & Trade Marketing",
     accent: "#2B4EA8",
     exhibitLabel: "EXHIBIT A — TRADE MARKETING",
-    heroImage: "/images/loreal/hyalu-b5-kiosk.jpg",
+    heroImage: "/images/loreal/cerave-shelf-setup.jpg",
     logo: "/images/loreal/loreal-paris-logo.png",
     homeDescription:
       "Trade marketing execution at the shelf and in person — from the CeraVe Gift-With-Purchase mechanic to a trade fair and live brand activations for La Roche-Posay, Vichy and SkinCeuticals.",
@@ -63,12 +66,12 @@ export const cases: CaseStudy[] = [
       },
       {
         title: "Challenge",
-        tag: "CONTEXT",
+        tag: "CHALLENGE",
         body: "Converting shelf attention into trial purchase for CeraVe's new Suncare line — including UV Immune+ — in a season where La Roche-Posay's own gel cream and Hyalu B5 launches and Vichy's Regen Serum were competing for the same shelf and marketing attention, on top of the usual pressure from other brands. On top of that, making sure every store actually executed correctly — that PLV and displays were set up as planned, not just shipped — was its own ongoing challenge.",
       },
       {
         title: "Insight",
-        tag: "CONTEXT",
+        tag: "INSIGHT",
         body: "The Trade Marketing & BD team went straight to the street — talking to shoppers outside pharmacies — to see this firsthand: dermo-cosmetic shoppers often decide at the shelf, without a pharmacist's guidance, and a compelling reason to try something new, like a Gift-With-Purchase, directly shapes which product they pick up. Two other patterns stood out: AI is increasingly shaping how shoppers research dermo-cosmetic purchases before they even reach the store, and interactive, hands-on implementations with the public consistently outperformed passive displays.",
       },
       {
@@ -124,53 +127,69 @@ export const cases: CaseStudy[] = [
     caseNumber: "Case 02 of 03",
     categoryTag: "CASE 02 — CONSUMER INSIGHT & PRODUCT",
     title: "EPA",
-    subtitle: "Consumer Insight → Product Development · a project within Riiing",
-    client: "Riiing (academic / social entrepreneurship project)",
-    role: "Research, concept & product development",
-    timeline: "[pending]",
+    subtitle: "Riiing — Consumer Insight → Product Design → Psychological Validation",
+    client: "Riiing (own venture — thesis product)",
+    role: "Founder — research, product design & validation",
+    timeline: "2021 – 2025 · thesis submitted Nov. 2025",
     category: "Consumer Insight & Product",
     accent: "#E2492B",
     exhibitLabel: "EXHIBIT B — INSIGHT & PRODUCT",
+    logo: "/images/epa/riiing-logo.png",
     homeDescription:
-      "A card game for anticipatory anxiety, built from real interviews through to a validated physical product.",
+      "A physical card game — and Riiing, the venture behind it — built to break the ice and combat anticipatory anxiety among university students, validated through interviews, live play sessions, and five psychologists from concept to prototype.",
     sections: [
       {
         title: "Context",
         tag: "CONTEXT",
-        body: "University students regularly experience anticipatory anxiety — worry about a future social or academic situation before it happens — with few informal, non-clinical tools designed specifically around that moment. [Confirm exact framing used in the original brief]",
+        body: "The spark was an offhand comment from his 8-year-old cousin, who turned down an invitation to play with other kids with: 'No quiero, yo estoy bien aquí. ¿Para qué hablo con gente?' It pointed to a wider pattern: university students who are physically present on campus but stay emotionally disconnected from it, replacing spontaneous conversation with a phone. The first version of the idea targeted children and teenagers, with parents as the paying customer — but interviews showed that wasn't the right market: no realistic way to compete with something like Roblox for kids' attention, and a biased, too-narrow pool of parents willing to pay.",
+      },
+      {
+        title: "Challenge",
+        tag: "CHALLENGE",
+        body: "Redirecting the whole project toward a validated audience without just chasing a trendier demographic. Twenty interviews with self-described 'sociable' undergraduates across 5 different majors in Bogotá surfaced a consistent pattern: real anticipatory anxiety, a strong pull back toward already-known groups, and a felt need for acceptance — even among people who consider themselves social. The harder challenge was designing a fix that didn't read as a therapy tool or force direct exposure, since forced exposure was flagged as actively harmful to the people it was meant to help.",
       },
       {
         title: "Insight",
-        tag: "CONTEXT",
-        body: "[Pending: 1-2 concrete findings from the interviews — what students said, in their own words, about how they cope with anticipatory anxiety today]. Interviews and audience definition shaped who the game was ultimately designed for.",
+        tag: "INSIGHT",
+        body: "Five psychologists — organizational, clinical and educational — pushed back on the 'introvert vs. extrovert' framing entirely: comfort with strangers depends on context, not fixed personality, and direct, forced exposure makes anticipatory anxiety worse, not better. The validated numbers backed this up: undergraduates prefer a known group (4.1/5), report positive results after taking the first step to socialize (3.5/5), rate acceptance as important (3.75/5), and still experience real anticipatory anxiety (3.1/5) despite low perceived loneliness (2/5) — people who look fine from the outside, still avoiding the first move.",
       },
       {
         title: "Strategy",
         tag: "MY ROLE",
-        body: "Reframed the problem from 'reduce anxiety' (too broad, too clinical) to 'give students a low-stakes social structure for the moments that cause it' — which pointed toward a game format rather than an app or a wellness campaign.",
+        body: "Sized the corrected market with a TAM-SAM-SOM model — roughly 834,000 undergraduates in Bogotá, a ~750,000 SAM, and a 45,000–90,000 reachable SOM — and chose a physical card game over an app or a wellness campaign, built around gradual exposure instead of forced interaction, so the format itself does the work of lowering the stakes.",
+        images: [
+          { letter: "A", label: "EPA card categories — Descongélese, Sin miedo al éxito, Sin pelos en la lengua, Misterio", src: "/images/epa/epa-cards-categories.jpg" },
+          { letter: "B", label: "Challenge card examples", src: "/images/epa/epa-cards-challenges.jpg" },
+        ],
       },
       {
         title: "Creative Solution",
         tag: "MY ROLE",
-        body: "EPA: a physical card game built around four categories — Icebreaker, Challenge, Deep Talk, and Mystery — designed to work as a social ritual, not a therapy tool.",
-        images: [{ letter: "A", label: "EPA prototype — photo" }],
+        body: "Designed EPA: a card game built on four categories — Descongélese (breaks the ice between two people), Sin miedo al éxito (moves the whole group — invite, merge, integrate, 3+ people), Sin pelos en la lengua (real conversation, past small talk), and Misterio (mixes entire groups together) — wrapped in a distinctly Colombian voice, flat-color character illustrations, and everyday phrases like 'métale moral' and 'no hay de otra,' under the campaign line 'Pal conocido y desconocido.'",
       },
       {
         title: "Product Development",
         tag: "MY ROLE",
-        body: "Took the concept from paper prototype to a physical card deck, iterating the four categories and the rules based on how test groups actually played. [Specific/individual vs. team contribution — to confirm]",
-        images: [{ letter: "B", label: "User testing session — video", isVideo: true }],
+        body: "Iterated the prototype through two full play sessions with real groups — 6 people aged 19–21, then 9 people aged 20–50 — tracking how fast people understood the rules, how many lost their embarrassment before the third card, and whether groups actually mixed. The second round improved on every measure: rule comprehension in under a minute rose from 4 of 6 to 6 of 9 participants, the number of people who ended up talking to total strangers roughly doubled, and conversations kept going past what the cards even asked for.",
+        images: [
+          { letter: "C", label: "Play-test validation — round 1 (19–21 years, n=6)", src: "/images/epa/epa-validation-round1.jpg" },
+          { letter: "D", label: "Play-test validation — round 2 (20–50 years, n=9)", src: "/images/epa/epa-validation-round2.jpg" },
+        ],
       },
       {
         title: "Results",
         tag: "RESULT — TEAM",
-        body: "[Pending: what the validation process showed — did the game do what it set out to do, in the words of the people who played it, not just an assumption that it worked]",
+        body: "Five psychologists validated the concept end-to-end — problem, mechanics and ethics — confirming EPA reduces anticipatory anxiety without forcing exposure, and 10 of 15 people in follow-up validation confirmed the experience matched what it promised. Across both live sessions, participants reported feeling more comfortable talking to people they'd never met, and the psychologists observing directly noted real inclusion behavior — laughing, listening, collaborating — not just polite participation.",
       },
       {
         title: "Learning",
         tag: "MY ROLE",
-        body: "Good consumer insight work means reframing the problem before proposing a solution — the card-game format only became obvious after rejecting the more generic 'anxiety app' idea.",
+        body: "The sharpest lesson was about the market, not the product: the original kids-and-parents concept felt right but failed validation, and the harder, more useful move was killing it before falling in love with it. On the product side, the psychologists' reframe stuck — there's no such thing as a fixed 'introvert,' only contexts that make people feel safe enough to try, and a game can be designed on purpose to be that context.",
       },
+    ],
+    appendixExhibits: [
+      { letter: "E", label: "EPA rules card", src: "/images/epa/epa-cards-rules.jpg" },
+      { letter: "F", label: "EPA brand characters", src: "/images/epa/epa-lineup.png" },
     ],
   },
   {

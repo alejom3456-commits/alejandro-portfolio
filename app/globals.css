@@ -22,3 +22,52 @@ body {
 a:hover .underline-sweep {
   transform: scaleX(1);
 }
+
+/* Falling product chips — L'Oréal case hero decoration */
+@keyframes fall {
+  0% {
+    transform: translateY(-40%) rotate(-6deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.5;
+  }
+  88% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(480%) rotate(8deg);
+    opacity: 0;
+  }
+}
+
+.rain-chip {
+  position: absolute;
+  top: -15%;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  will-change: transform, opacity;
+}
+
+/* EPA brand-character decoration — gentle float, case hero only */
+@keyframes float-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(calc(var(--epa-rotate, 0deg) * -1));
+  }
+  50% {
+    transform: translateY(-14px) rotate(var(--epa-rotate, 0deg));
+  }
+}
+
+.epa-chip {
+  position: absolute;
+  height: auto;
+  opacity: 0.45;
+  animation-name: float-bob;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
