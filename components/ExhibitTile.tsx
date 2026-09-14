@@ -35,7 +35,7 @@ export default function ExhibitTile({ letter, label, color, isVideo = false, src
         >
           <PlayIcon size={10} />
           <span className="font-grotesk text-[9.5px] leading-snug text-cream/90">
-            {letter ? `EXHIBIT ${letter} — ` : ""}
+            {letter ? `EXHIBIT ${letter}: ` : ""}
             {label}
           </span>
         </div>
@@ -63,7 +63,7 @@ export default function ExhibitTile({ letter, label, color, isVideo = false, src
         >
           {isVideo && <PlayIcon size={10} />}
           <span className="font-grotesk text-[9.5px] leading-snug text-cream/90">
-            {letter ? `EXHIBIT ${letter} — ` : ""}
+            {letter ? `EXHIBIT ${letter}: ` : ""}
             {label}
           </span>
         </div>
@@ -84,7 +84,7 @@ export default function ExhibitTile({ letter, label, color, isVideo = false, src
         <CameraIcon />
       )}
       <span className="font-grotesk text-[10px] leading-snug text-cream/85">
-        {letter ? `EXHIBIT ${letter} — ` : ""}
+        {letter ? `EXHIBIT ${letter}: ` : ""}
         {label}
       </span>
     </div>

@@ -76,3 +76,25 @@ a:hover .underline-sweep {
   opacity: 0.6;
   filter: drop-shadow(0 3px 6px rgba(27, 27, 24, 0.15));
 }
+
+/* Scroll-reveal: content fades and lifts in once, the first time it enters
+   the viewport. Used across every case page section so the write-up feels
+   alive on scroll instead of a static wall of text. */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
