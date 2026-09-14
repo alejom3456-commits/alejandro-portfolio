@@ -1,417 +1,250 @@
-import Link from "next/link";
-import Image from "next/image";
-import { notFound } from "next/navigation";
-import ColorStripe from "@/components/ColorStripe";
-import ExhibitTile from "@/components/ExhibitTile";
-import { BackArrowIcon, ArrowRightIcon } from "@/components/Icons";
-import { cases, getCase, getAdjacentCase, type CaseSection } from "@/lib/cases";
+export type ExhibitImage = {
+  letter: string;
+  label: string;
+  isVideo?: boolean;
+  src?: string; // path under /public — when set, the real photo (or video poster) renders instead of the placeholder tile
+  videoSrc?: string; // path under /public to an .mp4 — when set together with isVideo, renders a real playable video
+  landscape?: boolean; // set when src is itself a landscape image (a slide/screenshot) so it isn't cropped into the usual portrait tile
+};
 
-export function generateStaticParams() {
-  return cases.map((c) => ({ slug: c.slug }));
-}
+export type CaseSection = {
+  title: string;
+  tag: "CONTEXT" | "CHALLENGE" | "INSIGHT" | "MY ROLE" | "RESULT — TEAM";
+  body: string;
+  images?: ExhibitImage[];
+};
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
-  const c = getCase(params.slug);
-  if (!c) return {};
-  return {
-    title: `${c.title} — Alejandro Morales`,
-    description: c.homeDescription,
-  };
-}
+export type CaseStudy = {
+  slug: string;
+  caseNumber: string;
+  categoryTag: string;
+  title: string;
+  subtitle: string;
+  client: string;
+  role: string;
+  timeline: string;
+  category: string;
+  accent: string; // hex — this case's identity color
+  exhibitLabel: string; // used on the homepage exhibit card, e.g. "EXHIBIT A"
+  homeDescription: string;
+  heroImage?: string; // optional real photo shown behind the case hero — only set where real photos exist
+  logo?: string; // optional client/brand logo badge shown in the case hero
+  sections: CaseSection[];
+  appendixExhibits?: ExhibitImage[];
+};
 
-function tagColor(tag: CaseSection["tag"], accent: string) {
-  if (tag === "RESULT — TEAM") return "#E2492B";
-  if (tag === "MY ROLE") return accent;
-  if (tag === "CHALLENGE") return "#4A4740";
-  if (tag === "INSIGHT") return "#6B7280";
-  return "#8A8577"; // CONTEXT
-}
+// Tag color logic (kept consistent across every case):
+//  CONTEXT        -> warm taupe gray (#8A8577) — the setup / background
+//  CHALLENGE      -> dark espresso   (#4A4740) — the tension / problem
+//  INSIGHT        -> cool slate gray (#6B7280) — the finding / clarity
+//  MY ROLE        -> this case's own accent color
+//  RESULT — TEAM  -> always coral (#E2492B) — a consistent "verify before publishing" flag
+//                    across the whole site, regardless of the case's own color.
+// All set in the page renderer's tagColor() function.
 
-// Generic bottle/tube silhouettes in brand-associated colors — drawn shapes,
-// not reproductions of any product photo, so they're safe to use as decoration.
-type BottleKind = "dropper" | "pump" | "tube" | "spray";
-
-function ProductSilhouette({ kind, body, cap }: { kind: BottleKind; body: string; cap: string }) {
-  if (kind === "pump") {
-    return (
-      <svg viewBox="0 0 60 100" width="100%" height="100%">
-        <rect x="14" y="30" width="32" height="60" rx="6" fill={body} />
-        <rect x="20" y="14" width="20" height="18" rx="3" fill={cap} />
-        <rect x="18" y="8" width="20" height="6" rx="2" fill={cap} />
-        <rect x="26" y="0" width="8" height="10" rx="2" fill={cap} />
-      </svg>
-    );
-  }
-  if (kind === "dropper") {
-    return (
-      <svg viewBox="0 0 60 100" width="100%" height="100%">
-        <rect x="16" y="34" width="28" height="56" rx="5" fill={body} />
-        <rect x="20" y="14" width="20" height="22" rx="3" fill={cap} />
-        <path d="M26 2 L34 2 L32 16 L28 16 Z" fill={cap} />
-      </svg>
-    );
-  }
-  if (kind === "tube") {
-    return (
-      <svg viewBox="0 0 60 100" width="100%" height="100%">
-        <path d="M18 30 L42 30 L38 92 Q30 98 22 92 Z" fill={body} />
-        <rect x="20" y="10" width="20" height="22" rx="4" fill={cap} />
-      </svg>
-    );
-  }
-  return (
-    <svg viewBox="0 0 60 100" width="100%" height="100%">
-      <rect x="14" y="26" width="32" height="64" rx="8" fill={body} />
-      <rect x="22" y="10" width="16" height="18" rx="3" fill={cap} />
-      <rect x="29" y="-1" width="14" height="10" rx="2" fill={cap} transform="rotate(18 29 4)" />
-    </svg>
-  );
-}
-
-const RAIN_ITEMS: { kind: BottleKind; body: string; cap: string; left: string; size: number; delay: string; duration: string }[] = [
-  { kind: "dropper", body: "#3E8FD0", cap: "#EDEDED", left: "4%", size: 46, delay: "0s", duration: "17s" }, // La Roche-Posay blue
-  { kind: "tube", body: "#1FA79A", cap: "#F4EEDF", left: "18%", size: 40, delay: "5s", duration: "20s" }, // Vichy teal
-  { kind: "pump", body: "#F4EEDF", cap: "#1FA79A", left: "34%", size: 38, delay: "10s", duration: "16s" }, // CeraVe white/teal
-  { kind: "spray", body: "#F2941A", cap: "#F4EEDF", left: "50%", size: 44, delay: "2s", duration: "21s" }, // Anthelios orange
-  { kind: "dropper", body: "#A85C1E", cap: "#1B1B18", left: "66%", size: 36, delay: "13s", duration: "18s" }, // SkinCeuticals amber
-  { kind: "pump", body: "#F4EEDF", cap: "#3E8FD0", left: "80%", size: 42, delay: "7s", duration: "19s" }, // CeraVe white/blue
-  { kind: "tube", body: "#C8102E", cap: "#F4EEDF", left: "92%", size: 38, delay: "3s", duration: "22s" }, // Vichy Collagen red
+export const cases: CaseStudy[] = [
+  {
+    slug: "loreal",
+    caseNumber: "Case 01 of 03",
+    categoryTag: "CASE 01 — BRAND & TRADE MARKETING",
+    title: "L'Oréal — Dermatological Beauty",
+    subtitle: "Trade Marketing & Brand Activation",
+    client: "La Roche-Posay, CeraVe, Vichy, SkinCeuticals",
+    role: "Trade Marketing & BD Intern",
+    timeline: "January 17 – July 19, 2026",
+    category: "Brand & Trade Marketing",
+    accent: "#2B4EA8",
+    exhibitLabel: "EXHIBIT A — TRADE MARKETING",
+    heroImage: "/images/loreal/cerave-shelf-setup.jpg",
+    logo: "/images/loreal/loreal-paris-logo.png",
+    homeDescription:
+      "Trade marketing execution at the shelf and in person — from the CeraVe Gift-With-Purchase mechanic to a trade fair and live brand activations for La Roche-Posay, Vichy and SkinCeuticals.",
+    sections: [
+      {
+        title: "Context",
+        tag: "CONTEXT",
+        body: "La Roche-Posay, CeraVe and Vichy needed more brand visibility across pharmacy channels — Medipiel, Bella Piel, and Farmatodo — right as several major launches converged in the same season: La Roche-Posay's new gel cream and its Hyalu B5 update, Vichy's Regen Serum, and CeraVe's full Suncare line — all while still sustaining core products like Effaclar, CeraVe's moisturizers and cleansers, and Vichy's Collagen and Collagel.",
+      },
+      {
+        title: "Challenge",
+        tag: "CHALLENGE",
+        body: "Converting shelf attention into trial purchase for CeraVe's new Suncare line — including UV Immune+ — in a season where La Roche-Posay's own gel cream and Hyalu B5 launches and Vichy's Regen Serum were competing for the same shelf and marketing attention, on top of the usual pressure from other brands. On top of that, making sure every store actually executed correctly — that PLV and displays were set up as planned, not just shipped — was its own ongoing challenge.",
+      },
+      {
+        title: "Insight",
+        tag: "INSIGHT",
+        body: "The Trade Marketing & BD team went straight to the street — talking to shoppers outside pharmacies — to see this firsthand: dermo-cosmetic shoppers often decide at the shelf, without a pharmacist's guidance, and a compelling reason to try something new, like a Gift-With-Purchase, directly shapes which product they pick up. Two other patterns stood out: AI is increasingly shaping how shoppers research dermo-cosmetic purchases before they even reach the store, and interactive, hands-on implementations with the public consistently outperformed passive displays.",
+      },
+      {
+        title: "Strategy",
+        tag: "MY ROLE",
+        body: "Translated the brand's national activation calendar into a retail-ready plan per channel — what materials each store format needed, how the GWP mechanic would work at checkout, and how to keep visual consistency across very different store environments. On the commercial side, this meant coordinating directly with the dermoconsejera (in-store beauty advisor) teams and the visita médica (medical-visit) reps, and taking part in a global audit process that included direct conversations with the directors of each division — Dermatological, Mass Consumer, Professional, and others.",
+        images: [
+          { letter: "A", label: "Hyalu B5 in-store kiosk setup", src: "/images/loreal/hyalu-b5-kiosk.jpg" },
+          { letter: "B", label: "CeraVe podium display setup", src: "/images/loreal/cerave-podium-display.jpg" },
+        ],
+      },
+      {
+        title: "Execution",
+        tag: "MY ROLE",
+        body: "Coordinated distribution and setup of POP/PLV materials and glorifiers across pharmacy channels, tracked sell-in and sell-out, and consolidated activation reporting for the brand team. Beyond the shelf, supported the brand's presence at the Coopidrogas trade fair, organized a street-level fieldwork day for the entire Dermatological division to gather shopper insights directly, ran the Aruma in-store activation at Locatel, helped execute SkinCeuticals luxury activations at strategic Medipiel and Bella Piel locations in Bogotá and Medellín, and took part in broader exhibitions and launches at flagship stores.",
+        images: [
+          { letter: "C", label: "CeraVe booth at the Coopidrogas trade fair", src: "/images/loreal/coopidrogas-booth.jpg" },
+          { letter: "D", label: "Display fixture shaped like the CeraVe moisturizing lotion — Coopidrogas", src: "/images/loreal/coopidrogas-bottle-fixture.jpg" },
+        ],
+      },
+      {
+        title: "Results",
+        tag: "RESULT — TEAM",
+        body: "The number of points of sale reached with general PLV grew by 30%, and the activations I personally led delivered results above 80%. The clearest single example was Aruma at Locatel: daily sell-out went from around 3–4 units to about 20 — nearly a 5x lift. Additional retail coverage and visibility gains from the Coopidrogas fair, the SkinCeuticals luxury activations, and the broader flagship-store exhibitions are reported at the brand level. My specific contribution there was hands-on: supporting the stand's logistics and creative implementation, staffing decisions for the fair, and making sure the event executed correctly on the ground — and for the activations, the same, plus coordinating with the commercial team and the sales force to run them.",
+      },
+      {
+        title: "Learning",
+        tag: "MY ROLE",
+        body: "Brand strategy is only as strong as its execution at the shelf — the gap between a campaign concept and what a shopper actually sees is where most of the real work happens. Logistics isn't a background task, it's the strategy: a perfect PLV design that arrives late or gets set up wrong is a failed activation, no matter how good the concept was. I also learned to think past the individual sale toward the full shopping experience — what a shopper feels walking up to a stand, not just what they buy from it — and to treat AI's growing role in how people research these purchases as something to design for now, not later. And every activation is a draft for the next one: each fair, each point of sale, each street outing taught me something specific to make the following one more attention-grabbing, better staffed, and better executed than the last.",
+      },
+    ],
+    appendixExhibits: [
+      { letter: "E", label: "Dermatological division street fieldwork — Bella Piel", src: "/images/loreal/bellapiel-team.jpg" },
+      { letter: "F", label: "Dermatological division street fieldwork — Farmatodo", src: "/images/loreal/farmatodo-team.jpg" },
+      { letter: "G", label: "Panamericana in-store activation", src: "/images/loreal/panamericana-activation.jpg" },
+      { letter: "H", label: "Vichy Dercos shelf display", src: "/images/loreal/vichy-dercos-shelf.jpg" },
+      { letter: "I", label: "Setting up the CeraVe shelf display", src: "/images/loreal/cerave-shelf-setup.jpg" },
+      { letter: "J", label: "CeraVe Suncare launch display", src: "/images/loreal/cerave-suncare-shelf.jpg" },
+      { letter: "K", label: "Illuminated CeraVe wall — Coopidrogas fair", src: "/images/loreal/coopidrogas-illuminated-wall.jpg" },
+      { letter: "L", label: "Dermatological division street fieldwork — team", src: "/images/loreal/fieldwork-team-2.jpg" },
+      { letter: "M", label: "Dermatological division street fieldwork — team", src: "/images/loreal/fieldwork-team-3.jpg" },
+      {
+        letter: "N",
+        label: "CeraVe Suncare launch — building facade activation",
+        isVideo: true,
+        src: "/images/loreal/cerave-suncare-facade-poster.jpg",
+        videoSrc: "/videos/loreal/cerave-suncare-facade.mp4",
+      },
+    ],
+  },
+  {
+    slug: "epa",
+    caseNumber: "Case 02 of 03",
+    categoryTag: "CASE 02 — CONSUMER INSIGHT & PRODUCT",
+    title: "EPA",
+    subtitle: "Riiing — Consumer Insight → Product Design → Psychological Validation",
+    client: "Riiing (own venture — undergraduate thesis)",
+    role: "Sole creator, start to finish — research, game design, product validation, brand identity & business model",
+    timeline: "2021 – 2025 · thesis submitted Nov. 2025",
+    category: "Consumer Insight & Product",
+    accent: "#E2492B",
+    exhibitLabel: "EXHIBIT B — INSIGHT & PRODUCT",
+    logo: "/images/epa/riiing-logo.png",
+    heroImage: "/images/epa/epa-lineup-hero.jpg",
+    homeDescription:
+      "A physical card game — and Riiing, the venture behind it — designed solo as an undergraduate thesis, from consumer research and game design through to brand identity and business model, validated with real interviews, live play sessions, and five psychologists.",
+    sections: [
+      {
+        title: "Context",
+        tag: "CONTEXT",
+        body: "The spark was an offhand comment from his 8-year-old cousin, who turned down an invitation to play with other kids with: 'No quiero, yo estoy bien aquí. ¿Para qué hablo con gente?' It pointed to a wider pattern: university students who are physically present on campus but stay emotionally disconnected from it, replacing spontaneous conversation with a phone. The first version of the idea targeted children and teenagers, with parents as the paying customer — but interviews showed that wasn't the right market: no realistic way to compete with something like Roblox for kids' attention, and a biased, too-narrow pool of parents willing to pay.",
+      },
+      {
+        title: "Challenge",
+        tag: "CHALLENGE",
+        body: "Redirecting the whole project toward a validated audience without just chasing a trendier demographic. Twenty interviews with self-described 'sociable' undergraduates across 5 different majors in Bogotá surfaced a consistent pattern: real anticipatory anxiety, a strong pull back toward already-known groups, and a felt need for acceptance — even among people who consider themselves social. The harder challenge was designing a fix that didn't read as a therapy tool or force direct exposure, since forced exposure was flagged as actively harmful to the people it was meant to help.",
+      },
+      {
+        title: "Insight",
+        tag: "INSIGHT",
+        body: "Five psychologists — organizational, clinical and educational — pushed back on the 'introvert vs. extrovert' framing entirely: comfort with strangers depends on context, not fixed personality, and direct, forced exposure makes anticipatory anxiety worse, not better. The validated numbers backed this up: undergraduates prefer a known group (4.1/5), report positive results after taking the first step to socialize (3.5/5), rate acceptance as important (3.75/5), and still experience real anticipatory anxiety (3.1/5) despite low perceived loneliness (2/5) — people who look fine from the outside, still avoiding the first move.",
+      },
+      {
+        title: "Buyer Persona",
+        tag: "MY ROLE",
+        body: "Interviews and validation converged on one archetype: Laura, 20, studying International Relations in Bogotá. She's sociable but anxious — first contact makes her nervous, she fears rejection and quietly avoids the moment, and she wants to belong without feeling judged. She isn't chasing more followers; she wants real connections without filters. Laura is both the user and the buyer EPA was designed around — not a hypothetical persona, but the direct synthesis of the 20 interviews and the psychologists' input.",
+        images: [{ letter: "P", label: "Buyer / user persona — Laura, 20 (from the thesis deck)", src: "/images/epa/slides/slide-05.jpg", landscape: true }],
+      },
+      {
+        title: "Strategy",
+        tag: "MY ROLE",
+        body: "Sized the corrected market himself with a TAM-SAM-SOM model — roughly 834,000 undergraduates in Bogotá, a ~750,000 SAM, and a 45,000–90,000 reachable SOM — and chose a physical card game over an app or a wellness campaign, built around gradual exposure instead of forced interaction, so the format itself does the work of lowering the stakes. Business model: EPA is the entry point, not the whole business — the go-to-market is B2B first, selling the experience into university welcome weeks, onboarding, orientations, career fairs, support groups and campus networking events, where an institution books the experience for a group rather than one person buying a single deck. Detailed costing and pricing are still being finalized, but validated demand — a community that wants to interact and keeps coming back — points to a workable fit. From there, the long-term vision is for Riiing to grow into a full events and networking company: helping people who are afraid to show up to an event alone actually go, and meet new people at events curated around what they're genuinely interested in, with an app and website as the next layer connecting the physical game to that larger experience.",
+        images: [
+          { letter: "A", label: "EPA card categories — Descongélese, Sin miedo al éxito, Sin pelos en la lengua, Misterio", src: "/images/epa/epa-cards-categories.jpg" },
+          { letter: "B", label: "Challenge card examples", src: "/images/epa/epa-cards-challenges.jpg" },
+        ],
+      },
+      {
+        title: "Creative Solution",
+        tag: "MY ROLE",
+        body: "Designed EPA: a card game built on four categories — Descongélese (breaks the ice between two people), Sin miedo al éxito (moves the whole group — invite, merge, integrate, 3+ people), Sin pelos en la lengua (real conversation, past small talk), and Misterio (mixes entire groups together) — wrapped in a distinctly Colombian voice, flat-color character illustrations, and everyday phrases like 'métale moral' and 'no hay de otra,' under the campaign line 'Pal conocido y desconocido.'",
+      },
+      {
+        title: "Product Development",
+        tag: "MY ROLE",
+        body: "Iterated the prototype through two full play sessions with real groups — 6 people aged 19–21, then 9 people aged 20–50 — tracking how fast people understood the rules, how many lost their embarrassment before the third card, and whether groups actually mixed. The second round improved on every measure: rule comprehension in under a minute rose from 4 of 6 to 6 of 9 participants, the number of people who ended up talking to total strangers roughly doubled, and conversations kept going past what the cards even asked for.",
+        images: [
+          { letter: "C", label: "Play-test validation — round 1 (19–21 years, n=6)", src: "/images/epa/epa-validation-round1.jpg", landscape: true },
+          { letter: "D", label: "Play-test validation — round 2 (20–50 years, n=9)", src: "/images/epa/epa-validation-round2.jpg", landscape: true },
+        ],
+      },
+      {
+        title: "Results",
+        tag: "RESULT — TEAM",
+        body: "Validation ran in four stages, each testing something different. Stage 1 — problem validation: 20 interviews with self-described sociable undergraduates confirmed the anxiety and avoidance pattern was real, not assumed. Stage 2 — concept validation: five psychologists (organizational, clinical and educational) reviewed the problem, the mechanics and the ethics of the fix itself, confirming EPA reduces anticipatory anxiety without forcing exposure — a real risk they flagged early and that shaped the final design. Stage 3 — product validation: two live play-test rounds (6 people aged 19–21, then 9 people aged 20–50) confirmed the game itself worked — rules were clear, pacing held, and groups that started as strangers actually mixed, with the psychologists observing both sessions directly noting real inclusion behavior (laughing, listening, collaborating), not just polite participation. Stage 4 — outcome confirmation: in follow-up validation after the sessions, 10 of 15 participants confirmed the experience delivered on what it promised — building real bonds and a sense of belonging, not just filling time. Read together, the four stages validate different layers of the same claim: the problem is real, the fix is sound in principle, the product works in practice, and the people who played it say it delivered.",
+      },
+      {
+        title: "Learning",
+        tag: "MY ROLE",
+        body: "The sharpest lesson was about the market, not the product: the original kids-and-parents concept felt right but failed validation, and the harder, more useful move was killing it before falling in love with it. On the product side, the psychologists' reframe stuck — there's no such thing as a fixed 'introvert,' only contexts that make people feel safe enough to try, and a game can be designed on purpose to be that context. As the sole creator of the whole project — research, game design, brand and business model, as an undergraduate thesis — the biggest personal takeaway was building comfort owning every layer of a product, not just the creative part.",
+      },
+    ],
+    appendixExhibits: [
+      { letter: "E", label: "EPA rules card", src: "/images/epa/epa-cards-rules.jpg" },
+      { letter: "F", label: "EPA brand characters", src: "/images/epa/epa-lineup.png" },
+    ],
+  },
+  {
+    slug: "trivela",
+    caseNumber: "Case 03 of 03",
+    categoryTag: "CASE 03 — BRAND & CONTENT",
+    title: "Trivela",
+    subtitle: "Brand Thesis → Content System → Execution → Audience Learning",
+    client: "Independent project",
+    role: "Founder, content & brand strategy",
+    timeline: "Ongoing",
+    category: "Brand & Content",
+    accent: "#D9A62E",
+    exhibitLabel: "EXHIBIT C — BRAND & CONTENT",
+    homeDescription:
+      "An independent football media brand — content strategy and audience-building, run on my own initiative.",
+    sections: [
+      {
+        title: "Brand Thesis",
+        tag: "CONTEXT",
+        body: "Most football media today treats the sport almost entirely as a business story — transfers, sponsorship deals, broadcasting rights — and forgets the person actually sustaining all of it: the hincha. Trivela's thesis is that the fan isn't just a spectator or an audience segment to sell to advertisers, but a consumer with real, observable opinions about what marketing in football actually connects with them and what just reads as noise. So Trivela goes and asks directly — in the street, outside real stadiums in Bogotá, in Spanish, unfiltered by a club press office or a global highlight reel. The longer bet: turn that same community of fans willing to give an honest opinion into a space that eventually talks about more than football — a live, ongoing read on what real audiences respond to, built through a marketing lens rather than a sports-media one.",
+      },
+      {
+        title: "Content System",
+        tag: "MY ROLE",
+        body: "Two recurring formats, tested against each other on purpose rather than picked upfront: street interviews with real fans outside stadiums (vox pop), and solo on-camera reaction pieces on the week's storylines — Bogotá's Millonarios–Santa Fe rivalry, national-team figures like James Rodríguez and Luis Díaz. Every video carries a consistent hashtag identity (#trivela, #bogota, #colombia, #futbol) and, where it fits, borrows a trending non-football hook — a reality-TV storyline, a viral audio — to reach past a football-only audience. All of it shot, edited and published solo on a phone, in CapCut.",
+      },
+      {
+        title: "Execution",
+        tag: "MY ROLE",
+        body: "Shot, edited and published content independently using Premiere and CapCut, handling everything from concept to publishing without a team. Real, unedited posts from the account are embedded further down this page.",
+      },
+      {
+        title: "Audience Learning",
+        tag: "RESULT — TEAM",
+        body: "Early and small on purpose — a few months in, low three digits of followers, and honest about that. But the data already answered a real question: street interviews with real fans consistently outperform solo opinion pieces, in one case by more than 10x (the top interview clip passed nearly 8,000 views against a few hundred for a typical reaction video). That's not a vanity metric — it's the same read a brand team needs before scaling a content bet: know which format the audience actually leans into before spending more time on the wrong one. The next test is whether that same fan community will follow Trivela past football itself — starting with how they perceive advertising and sponsorship at the stadium, and what of it actually lands versus what they tune out — the real test of whether this becomes a community built on consumer insight, not just football commentary.",
+      },
+    ],
+  },
 ];
 
-// EPA's own brand characters — illustrations made by Alejandro for the Riiing/EPA
-// thesis project — used here as a gentle floating decoration on the case hero.
-const EPA_ITEMS: { src: string; left: string; top: string; width: number; delay: string; duration: string; rotate: number }[] = [
-  { src: "/images/epa/epa-thumbsup.png", left: "3%", top: "8%", width: 66, delay: "0s", duration: "6s", rotate: -6 },
-  { src: "/images/epa/epa-pointer.png", left: "13%", top: "58%", width: 60, delay: "1.2s", duration: "7s", rotate: 4 },
-  { src: "/images/epa/epa-headphones.png", left: "89%", top: "10%", width: 52, delay: "0.6s", duration: "6.5s", rotate: -4 },
-  { src: "/images/epa/epa-wave-trio.png", left: "72%", top: "62%", width: 120, delay: "2s", duration: "8s", rotate: 2 },
-  { src: "/images/epa/epa-chef.png", left: "94%", top: "55%", width: 54, delay: "1.6s", duration: "7.5s", rotate: 5 },
-  { src: "/images/epa/epa-family.png", left: "6%", top: "78%", width: 70, delay: "0.9s", duration: "6.8s", rotate: -3 },
-  { src: "/images/epa/epa-laura-pose.png", left: "82%", top: "32%", width: 58, delay: "1.4s", duration: "7.2s", rotate: 3 },
-  { src: "/images/epa/epa-lineup.png", left: "44%", top: "5%", width: 92, delay: "0.4s", duration: "7.8s", rotate: -2 },
-  { src: "/images/epa/epa-headphones.png", left: "24%", top: "86%", width: 48, delay: "1.7s", duration: "6.4s", rotate: 4 },
-  { src: "/images/epa/epa-chef.png", left: "56%", top: "82%", width: 50, delay: "0.8s", duration: "7.3s", rotate: -5 },
-  { src: "/images/epa/epa-thumbsup.png", left: "40%", top: "38%", width: 44, delay: "2.2s", duration: "6.9s", rotate: 3 },
-  { src: "/images/epa/epa-pointer.png", left: "60%", top: "14%", width: 42, delay: "1.1s", duration: "7.6s", rotate: -4 },
-];
+export function getCase(slug: string) {
+  return cases.find((c) => c.slug === slug);
+}
 
-// More EPA characters "hanging" alongside the write-up itself, in the page
-// margins beside the text column — desktop only, so they never sit on top
-// of the copy on narrow screens.
-const EPA_BODY_ITEMS: { src: string; left: string; top: string; width: number; delay: string; duration: string; rotate: number }[] = [
-  { src: "/images/epa/epa-pointer.png", left: "2%", top: "4%", width: 62, delay: "0.3s", duration: "7s", rotate: -4 },
-  { src: "/images/epa/epa-thumbsup.png", left: "94%", top: "10%", width: 58, delay: "1.1s", duration: "6.6s", rotate: 5 },
-  { src: "/images/epa/epa-headphones.png", left: "3%", top: "30%", width: 50, delay: "0.7s", duration: "7.4s", rotate: -3 },
-  { src: "/images/epa/epa-laura-pose.png", left: "93%", top: "36%", width: 60, delay: "1.6s", duration: "6.9s", rotate: 4 },
-  { src: "/images/epa/epa-chef.png", left: "2%", top: "56%", width: 52, delay: "0.9s", duration: "7.1s", rotate: -5 },
-  { src: "/images/epa/epa-family.png", left: "92%", top: "62%", width: 66, delay: "1.3s", duration: "6.7s", rotate: 3 },
-  { src: "/images/epa/epa-wave-trio.png", left: "1%", top: "82%", width: 96, delay: "0.5s", duration: "7.6s", rotate: -2 },
-  { src: "/images/epa/epa-thumbsup.png", left: "92%", top: "88%", width: 56, delay: "1.8s", duration: "6.5s", rotate: 4 },
-  { src: "/images/epa/epa-lineup.png", left: "3%", top: "17%", width: 82, delay: "0.6s", duration: "7.3s", rotate: -2 },
-  { src: "/images/epa/epa-wave-trio.png", left: "88%", top: "23%", width: 86, delay: "1.4s", duration: "6.8s", rotate: 2 },
-  { src: "/images/epa/epa-pointer.png", left: "4%", top: "46%", width: 50, delay: "0.4s", duration: "7.5s", rotate: -3 },
-  { src: "/images/epa/epa-headphones.png", left: "89%", top: "49%", width: 48, delay: "1.2s", duration: "6.7s", rotate: 4 },
-  { src: "/images/epa/epa-chef.png", left: "3%", top: "70%", width: 50, delay: "0.8s", duration: "7.2s", rotate: -4 },
-  { src: "/images/epa/epa-laura-pose.png", left: "89%", top: "75%", width: 56, delay: "1.5s", duration: "6.9s", rotate: 3 },
-  { src: "/images/epa/epa-family.png", left: "4%", top: "94%", width: 62, delay: "1.0s", duration: "7.4s", rotate: -2 },
-];
-
-// The full Riiing/EPA pitch deck — hung here in its native landscape
-// aspect ratio so nothing gets cropped the way it did in the portrait
-// exhibit tiles.
-const EPA_SLIDES: { src: string; caption: string }[] = [
-  { src: "/images/epa/slides/slide-01.jpg", caption: "01 — Title" },
-  { src: "/images/epa/slides/slide-02.jpg", caption: "02 — Origin: Antonio" },
-  { src: "/images/epa/slides/slide-03.jpg", caption: "03 — Why it matters" },
-  { src: "/images/epa/slides/slide-04.jpg", caption: "04 — Hypothesis 1 (kids + parents) — invalidated" },
-  { src: "/images/epa/slides/slide-05.jpg", caption: "05 — Client archetype: Laura" },
-  { src: "/images/epa/slides/slide-06.jpg", caption: "06 — Archetype validation" },
-  { src: "/images/epa/slides/slide-07.jpg", caption: "07 — Solution hypothesis: the card game" },
-  { src: "/images/epa/slides/slide-08.jpg", caption: "08 — Psychologist validation" },
-  { src: "/images/epa/slides/slide-09.jpg", caption: "09 — The four card categories" },
-  { src: "/images/epa/slides/slide-10.jpg", caption: "10 — Card examples & how the game is won" },
-  { src: "/images/epa/slides/slide-11.jpg", caption: "11 — Play-test validation, round 1" },
-  { src: "/images/epa/slides/slide-12.jpg", caption: "12 — Play-test validation, round 2" },
-  { src: "/images/epa/slides/slide-13.jpg", caption: "13 — Overall validation summary" },
-  { src: "/images/epa/slides/slide-14.jpg", caption: "14 — B2B market exploration" },
-  { src: "/images/epa/slides/slide-15.jpg", caption: "15 — What's next for EPA" },
-  { src: "/images/epa/slides/slide-16.jpg", caption: "16 — Closing" },
-];
-
-export default function CaseStudyPage({ params }: { params: { slug: string } }) {
-  const c = getCase(params.slug);
-  if (!c) return notFound();
-  const next = getAdjacentCase(params.slug);
-
-  return (
-    <main>
-      <ColorStripe />
-
-      {/* HEADER */}
-      <header className="flex items-center justify-between bg-inkNavy px-6 py-4 md:px-10">
-        <span className="font-grotesk text-sm font-bold uppercase tracking-[0.14em] text-cream">
-          Alejandro Morales
-        </span>
-        <Link
-          href="/"
-          className="flex items-center gap-2 font-grotesk text-[12px] font-semibold uppercase tracking-[0.1em] text-cream/70 hover:text-cream"
-        >
-          <BackArrowIcon /> Back to work
-        </Link>
-      </header>
-
-      {/* CASE HERO */}
-      <section className="relative overflow-hidden bg-inkNavy px-6 py-14 md:px-10 md:py-20">
-        {c.heroImage && (
-          <>
-            <Image
-              src={c.heroImage}
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover opacity-40"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(20,24,31,0.65) 0%, rgba(20,24,31,0.88) 55%, #14181F 100%)",
-              }}
-            />
-          </>
-        )}
-        {c.slug === "loreal" && (
-          <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden="true">
-            {RAIN_ITEMS.map((item, i) => (
-              <div
-                key={i}
-                className="rain-chip"
-                style={{
-                  left: item.left,
-                  width: item.size,
-                  height: Math.round(item.size * (100 / 60)),
-                  animationDelay: item.delay,
-                  animationDuration: item.duration,
-                }}
-              >
-                <ProductSilhouette kind={item.kind} body={item.body} cap={item.cap} />
-              </div>
-            ))}
-          </div>
-        )}
-        {c.slug === "epa" && (
-          <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden="true">
-            {EPA_ITEMS.map((item, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src={item.src}
-                alt=""
-                className="epa-chip"
-                style={{
-                  left: item.left,
-                  top: item.top,
-                  width: item.width,
-                  animationDelay: item.delay,
-                  animationDuration: item.duration,
-                  ["--epa-rotate" as string]: `${item.rotate}deg`,
-                }}
-              />
-            ))}
-          </div>
-        )}
-        <div className="relative z-10 mx-auto max-w-5xl">
-          <div className="flex items-start justify-between gap-4">
-            <span
-              className="inline-block rounded-sm px-3 py-1.5 font-grotesk text-[11px] font-bold uppercase tracking-[0.1em] text-cream"
-              style={{ backgroundColor: c.accent }}
-            >
-              {c.categoryTag}
-            </span>
-            {c.logo && (
-              <div className="rounded-sm bg-cream px-4 py-2.5">
-                <div className="relative h-6 w-24">
-                  <Image src={c.logo} alt={`${c.client} logo`} fill className="object-contain" />
-                </div>
-              </div>
-            )}
-          </div>
-          <h1 className="mt-6 font-grotesk text-[34px] font-bold leading-[1.1] text-cream md:text-[46px]">
-            {c.title}
-          </h1>
-          <p className="mt-4 max-w-2xl font-serif text-[17px] italic leading-relaxed text-cream/75">
-            {c.subtitle}
-          </p>
-
-          <div className="mt-10 grid grid-cols-2 gap-6 border-t border-cream/15 pt-8 md:grid-cols-4">
-            {[
-              ["Client", c.client],
-              ["Role", c.role],
-              ["Timeline", c.timeline],
-              ["Category", c.category],
-            ].map(([label, value]) => (
-              <div key={label} className="flex flex-col gap-1.5">
-                <span className="font-grotesk text-[10px] font-bold uppercase tracking-[0.12em] text-cream/40">
-                  {label}
-                </span>
-                <span className="font-grotesk text-[13.5px] font-medium text-cream/85">{value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* BODY: sticky rail + sections */}
-      <section className="relative overflow-hidden bg-cream px-6 py-16 md:px-10 md:py-20">
-        {c.slug === "epa" && (
-          <div className="pointer-events-none absolute inset-0 z-0 hidden overflow-hidden md:block" aria-hidden="true">
-            {EPA_BODY_ITEMS.map((item, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src={item.src}
-                alt=""
-                className="epa-chip epa-chip-body"
-                style={{
-                  left: item.left,
-                  top: item.top,
-                  width: item.width,
-                  animationDelay: item.delay,
-                  animationDuration: item.duration,
-                  ["--epa-rotate" as string]: `${item.rotate}deg`,
-                }}
-              />
-            ))}
-          </div>
-        )}
-        <div className="relative z-10 mx-auto grid max-w-5xl gap-12 md:grid-cols-[180px_1fr]">
-          {/* Sticky field rail */}
-          <aside className="hidden md:block">
-            <div className="sticky top-[28px] flex flex-col gap-4">
-              {c.sections.map((s) => (
-                <a
-                  key={s.title}
-                  href={`#${s.title.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="font-grotesk text-[11px] font-bold uppercase tracking-[0.1em] text-inkSecondary hover:text-ink"
-                  style={{ borderLeft: `2px solid ${tagColor(s.tag, c.accent)}`, paddingLeft: "10px" }}
-                >
-                  {s.title}
-                </a>
-              ))}
-            </div>
-          </aside>
-
-          {/* Sections */}
-          <div className="flex flex-col gap-14">
-            {c.sections.map((s) => (
-              <div key={s.title} id={s.title.toLowerCase().replace(/\s+/g, "-")} className="scroll-mt-8">
-                <span
-                  className="mb-4 inline-block rounded-sm px-2.5 py-1 font-grotesk text-[10px] font-bold uppercase tracking-[0.1em] text-cream"
-                  style={{ backgroundColor: tagColor(s.tag, c.accent) }}
-                >
-                  {s.tag}
-                </span>
-                <h2 className="mb-4 font-grotesk text-[22px] font-bold text-ink">{s.title}</h2>
-                <p className="max-w-2xl font-serif text-[16px] leading-relaxed text-inkSoft">{s.body}</p>
-
-                {s.images && s.images.length > 0 && (
-                  <div className="mt-6 grid max-w-2xl grid-cols-2 gap-3">
-                    {s.images.map((img) => (
-                      <ExhibitTile
-                        key={img.letter}
-                        letter={img.letter}
-                        label={img.label}
-                        color={c.accent}
-                        isVideo={img.isVideo}
-                        src={img.src}
-                        videoSrc={img.videoSrc}
-                        landscape={img.landscape}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* EXHIBITS APPENDIX */}
-      {c.appendixExhibits && c.appendixExhibits.length > 0 && (
-        <section className="bg-creamAlt px-6 py-16 md:px-10 md:py-20">
-          <div className="mx-auto max-w-5xl">
-            <h3 className="mb-8 font-grotesk text-[12px] font-bold uppercase tracking-[0.12em] text-inkSecondary">
-              Exhibits Appendix
-            </h3>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {c.appendixExhibits.map((img) => (
-                <ExhibitTile
-                  key={img.letter}
-                  letter={img.letter}
-                  label={img.label}
-                  color={c.accent}
-                  isVideo={img.isVideo}
-                  src={img.src}
-                  videoSrc={img.videoSrc}
-                  landscape={img.landscape}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* FULL PRESENTATION — landscape, native aspect ratio */}
-      {c.slug === "epa" && (
-        <section className="bg-inkNavy px-6 py-16 md:px-10 md:py-20">
-          <div className="mx-auto max-w-5xl">
-            <h3 className="mb-2 font-grotesk text-[12px] font-bold uppercase tracking-[0.12em] text-cream/50">
-              Full Presentation
-            </h3>
-            <p className="mb-8 max-w-2xl font-serif text-[14.5px] leading-relaxed text-cream/70">
-              The full Riiing / EPA pitch deck, shown here at its original landscape proportions
-              rather than cropped into a portrait tile.
-            </p>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {EPA_SLIDES.map((slide) => (
-                <div key={slide.src} className="overflow-hidden rounded-sm border border-cream/10 bg-black">
-                  <div className="relative aspect-video w-full">
-                    <Image
-                      src={slide.src}
-                      alt={slide.caption}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="px-3 py-2">
-                    <span className="font-grotesk text-[10.5px] uppercase tracking-[0.08em] text-cream/60">
-                      {slide.caption}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* FOOTER NAV */}
-      <footer className="flex flex-col gap-6 bg-inkNavy px-6 py-14 md:flex-row md:items-center md:justify-between md:px-10">
-        <Link
-          href="/"
-          className="flex items-center gap-2 font-grotesk text-[12px] font-semibold uppercase tracking-[0.1em] text-cream/60 hover:text-cream"
-        >
-          <BackArrowIcon /> All work
-        </Link>
-        <Link
-          href={`/work/${next.slug}`}
-          className="flex items-center gap-2 font-grotesk text-[13px] font-bold uppercase tracking-[0.1em] text-cream hover:text-coral"
-        >
-          Next case — {next.title} <ArrowRightIcon />
-        </Link>
-      </footer>
-    </main>
-  );
+export function getAdjacentCase(slug: string) {
+  const index = cases.findIndex((c) => c.slug === slug);
+  if (index === -1) return cases[0];
+  return cases[(index + 1) % cases.length];
 }
