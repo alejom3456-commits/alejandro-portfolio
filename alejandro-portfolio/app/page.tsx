@@ -8,12 +8,12 @@ import { ArrowRightIcon } from "@/components/Icons";
 import { cases } from "@/lib/cases";
 
 const galleryPicks = [
+  { case: "loreal", image: cases[0].sections[3].images?.[0] }, // Hyalu B5 in-store kiosk photo
   { case: "loreal", image: cases[0].sections[4].images?.[0] }, // POS execution photo
   { case: "loreal", image: cases[0].sections[4].images?.[1] }, // activation video
-  { case: "epa", image: cases[1].sections[3].images?.[0] }, // EPA prototype photo
-  { case: "epa", image: cases[1].sections[4].images?.[0] }, // user testing video
-  { case: "trivela", image: cases[2].sections[2].images?.[0] }, // content reel video
-  { case: "trivela", image: cases[2].sections[2].images?.[1] }, // behind the scenes video
+  { case: "epa", image: cases[1].sections[4].images?.[0] }, // EPA card categories photo
+  { case: "epa", image: cases[1].appendixExhibits?.[0] }, // EPA rules card (portrait, matches the tile grid)
+  { case: "epa", image: cases[1].appendixExhibits?.[1] }, // EPA brand characters lineup
 ];
 
 const accentByCase: Record<string, string> = {
@@ -165,6 +165,7 @@ export default function Home() {
                   color={accentByCase[pick.case]}
                   isVideo={pick.image.isVideo}
                   src={pick.image.src}
+                  videoSrc={pick.image.videoSrc}
                 />
               ) : null
             )}
