@@ -217,27 +217,23 @@ export const cases: CaseStudy[] = [
     sections: [
       {
         title: "Brand Thesis",
-        tag: "MY ROLE",
-        body: "[Pending: the actual point of view Trivela argues for — what gap in football content it exists to fill, in one or two sentences, in your own words]",
+        tag: "CONTEXT",
+        body: "Most football media today treats the sport almost entirely as a business story — transfers, sponsorship deals, broadcasting rights — and forgets the person actually sustaining all of it: the hincha. Trivela's thesis is that the fan isn't just a spectator or an audience segment to sell to advertisers, but a consumer with real, observable opinions about what marketing in football actually connects with them and what just reads as noise. So Trivela goes and asks directly — in the street, outside real stadiums in Bogotá, in Spanish, unfiltered by a club press office or a global highlight reel. The longer bet: turn that same community of fans willing to give an honest opinion into a space that eventually talks about more than football — a live, ongoing read on what real audiences respond to, built through a marketing lens rather than a sports-media one.",
       },
       {
         title: "Content System",
         tag: "MY ROLE",
-        body: "[Pending: the recurring formats/series — not a list of one-off posts, but the repeatable system behind the content, and which platforms it runs on]",
+        body: "Two recurring formats, tested against each other on purpose rather than picked upfront: street interviews with real fans outside stadiums (vox pop), and solo on-camera reaction pieces on the week's storylines — Bogotá's Millonarios–Santa Fe rivalry, national-team figures like James Rodríguez and Luis Díaz. Every video carries a consistent hashtag identity (#trivela, #bogota, #colombia, #futbol) and, where it fits, borrows a trending non-football hook — a reality-TV storyline, a viral audio — to reach past a football-only audience. All of it shot, edited and published solo on a phone, in CapCut.",
       },
       {
         title: "Execution",
         tag: "MY ROLE",
-        body: "Shot, edited and published content independently using Premiere and CapCut, handling everything from concept to publishing without a team.",
-        images: [
-          { letter: "A", label: "Content reel — video", isVideo: true },
-          { letter: "B", label: "Behind the scenes — video", isVideo: true },
-        ],
+        body: "Shot, edited and published content independently using Premiere and CapCut, handling everything from concept to publishing without a team. Real, unedited posts from the account are embedded further down this page.",
       },
       {
         title: "Audience Learning",
         tag: "RESULT — TEAM",
-        body: "[Pending: real numbers — followers, reach, growth over a defined period — or, if not yet confirmed, an honest description of what changed in the content strategy based on what the audience actually responded to. Do not present as a growth case until the numbers are confirmed.]",
+        body: "Early and small on purpose — a few months in, low three digits of followers, and honest about that. But the data already answered a real question: street interviews with real fans consistently outperform solo opinion pieces, in one case by more than 10x (the top interview clip passed nearly 8,000 views against a few hundred for a typical reaction video). That's not a vanity metric — it's the same read a brand team needs before scaling a content bet: know which format the audience actually leans into before spending more time on the wrong one. The next test is whether that same fan community will follow Trivela past football itself — starting with how they perceive advertising and sponsorship at the stadium, and what of it actually lands versus what they tune out — the real test of whether this becomes a community built on consumer insight, not just football commentary.",
       },
     ],
   },
