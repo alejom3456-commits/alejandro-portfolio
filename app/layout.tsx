@@ -27,8 +27,8 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   title: "Alejandro Morales · Marketing",
   description:
-    "Marketing that has to work in the real world. Trade marketing at L'Oréal, a validated product from a research project, and an independent media brand, all before my first full-time job.",
-  metadataBase: new URL("https://alejandromorales.vercel.app"),
+    "Marketing that has to work in the real world. Full-time trade and brand marketing at L'Oréal, a validated product from a research project, and an independent media brand built from zero.",
+  metadataBase: new URL("https://alejandro-portfolio-beta.vercel.app"),
   openGraph: {
     title: "Alejandro Morales · Marketing",
     description: "Marketing that has to work in the real world.",

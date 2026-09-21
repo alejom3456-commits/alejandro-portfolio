@@ -10,7 +10,7 @@ export default function Stamp({ size = 46, filled = false }: StampProps) {
       style={{
         width: size,
         height: size,
-        background: filled ? "#E2492B" : "transparent",
+        background: filled ? "#1B1B18" : "transparent",
         border: filled ? "none" : "1.5px dashed #2B4EA8",
         boxShadow: filled ? "0 4px 14px rgba(0,0,0,0.35)" : "none",
       }}

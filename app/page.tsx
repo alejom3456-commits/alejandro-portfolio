@@ -4,6 +4,7 @@ import ColorStripe from "@/components/ColorStripe";
 import FieldLabel from "@/components/FieldLabel";
 import Stamp from "@/components/Stamp";
 import ExhibitTile from "@/components/ExhibitTile";
+import Reveal from "@/components/Reveal";
 import { ArrowRightIcon } from "@/components/Icons";
 import { cases } from "@/lib/cases";
 
@@ -18,7 +19,7 @@ const galleryPicks = [
 
 const accentByCase: Record<string, string> = {
   loreal: "#2B4EA8",
-  epa: "#E2492B",
+  epa: "#1B1B18",
   trivela: "#D9A62E",
 };
 
@@ -32,9 +33,8 @@ export default function Home() {
         <span className="font-grotesk text-sm font-bold uppercase tracking-[0.14em] text-cream">
           Alejandro Morales
         </span>
-        <nav className="hidden gap-8 font-grotesk text-[12px] font-semibold uppercase tracking-[0.1em] text-cream/70 md:flex">
+        <nav className="flex gap-4 font-grotesk text-[10px] font-semibold uppercase tracking-[0.1em] text-cream/70 md:gap-8 md:text-[12px]">
           <a href="#proof" className="hover:text-cream">Work</a>
-          <a href="#approach" className="hover:text-cream">Approach</a>
           <a href="#next-steps" className="hover:text-cream">Contact</a>
         </nav>
       </header>
@@ -43,10 +43,10 @@ export default function Home() {
       <section className="bg-inkNavy px-6 py-16 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[1.3fr_0.7fr] md:items-center">
           <div>
-            <FieldLabel color="#E2492B" className="mb-6">Objective</FieldLabel>
+            <FieldLabel color="#2B4EA8" className="mb-6">Objective</FieldLabel>
             <h1 className="font-grotesk text-[38px] font-bold leading-[1.08] text-cream md:text-[56px]">
               Marketing that has to work in{" "}
-              <em className="font-serif italic text-coral">the real world.</em>
+              <em className="font-serif italic text-cobalt">the real world.</em>
             </h1>
             <p className="mt-6 max-w-lg font-serif text-[17px] leading-relaxed text-cream/75">
               I'm a Communications &amp; Advertising graduate (Bogotá, Class of
@@ -59,7 +59,7 @@ export default function Home() {
             <div className="mt-9 flex flex-wrap items-center gap-5">
               <a
                 href="#proof"
-                className="inline-flex items-center gap-2 rounded-sm bg-coral px-6 py-3 font-grotesk text-[13px] font-bold uppercase tracking-[0.08em] text-cream transition hover:bg-coral/85"
+                className="inline-flex items-center gap-2 rounded-sm bg-cobalt px-6 py-3 font-grotesk text-[13px] font-bold uppercase tracking-[0.08em] text-cream transition hover:bg-cobalt/85"
               >
                 See the proof <ArrowRightIcon />
               </a>
@@ -73,16 +73,17 @@ export default function Home() {
           </div>
 
           <div className="relative mx-auto flex aspect-[4/5] w-full max-w-[280px] items-end justify-center overflow-hidden rounded-sm">
-            <div
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(155deg, #2B4EA8, #14181F 75%)" }}
+            <Image
+              src="/images/profile/alejandro-portrait.jpg"
+              alt="Alejandro Morales"
+              fill
+              sizes="280px"
+              className="object-cover"
+              priority
             />
-            <div className="absolute right-4 top-4">
+            <div className="absolute right-4 top-4 z-10">
               <Stamp size={54} filled />
             </div>
-            <span className="relative z-10 mb-4 font-grotesk text-[11px] uppercase tracking-[0.14em] text-cream/60">
-              Portrait pending
-            </span>
           </div>
         </div>
       </section>
@@ -104,46 +105,48 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <FieldLabel className="mb-10">Proof</FieldLabel>
           <div className="grid gap-6 md:grid-cols-3">
-            {cases.map((c) => (
-              <Link
-                key={c.slug}
-                href={`/work/${c.slug}`}
-                className="group flex flex-col overflow-hidden rounded-sm border border-rule bg-creamCard transition hover:-translate-y-1 hover:shadow-lg"
-              >
-                <div className="h-[6px] w-full" style={{ backgroundColor: c.accent }} />
-                {c.heroImage && (
-                  <div className="relative h-40 w-full overflow-hidden">
-                    <Image
-                      src={c.heroImage}
-                      alt=""
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                )}
-                <div className="flex flex-1 flex-col gap-4 p-6">
-                  <span
-                    className="w-fit rounded-sm px-2.5 py-1 font-grotesk text-[10px] font-bold uppercase tracking-[0.1em] text-cream"
-                    style={{ backgroundColor: c.accent }}
-                  >
-                    {c.exhibitLabel}
-                  </span>
-                  <h3 className="font-grotesk text-[20px] font-bold leading-snug text-ink">
-                    {c.title}
-                  </h3>
-                  <p className="font-serif text-[14.5px] leading-relaxed text-inkSoft">
-                    {c.homeDescription}
-                  </p>
-                  <span className="mt-auto inline-flex items-center gap-2 font-grotesk text-[12px] font-bold uppercase tracking-[0.08em] text-ink">
-                    <span className="underline-sweep-wrap relative">
-                      Read the case
-                      <span className="underline-sweep" style={{ color: c.accent }} />
+            {cases.map((c, i) => (
+              <Reveal key={c.slug} delay={i * 120}>
+                <Link
+                  href={`/work/${c.slug}`}
+                  style={{ "--card-accent": c.accent } as React.CSSProperties}
+                  className="group flex h-full flex-col overflow-hidden rounded-sm border border-rule bg-creamCard transition hover:-translate-y-1.5 hover:shadow-[0_16px_36px_-14px_var(--card-accent)]"
+                >
+                  <div className="h-[6px] w-full" style={{ backgroundColor: c.accent }} />
+                  {c.heroImage && (
+                    <div className="relative h-40 w-full overflow-hidden">
+                      <Image
+                        src={c.heroImage}
+                        alt=""
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover transition duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+                  <div className="flex flex-1 flex-col gap-4 p-6">
+                    <span
+                      className="w-fit rounded-sm px-2.5 py-1 font-grotesk text-[10px] font-bold uppercase tracking-[0.1em] text-cream"
+                      style={{ backgroundColor: c.accent }}
+                    >
+                      {c.exhibitLabel}
                     </span>
-                    <ArrowRightIcon color="#1B1B18" />
-                  </span>
-                </div>
-              </Link>
+                    <h3 className="font-grotesk text-[20px] font-bold leading-snug text-ink">
+                      {c.title}
+                    </h3>
+                    <p className="font-serif text-[14.5px] leading-relaxed text-inkSoft">
+                      {c.homeDescription}
+                    </p>
+                    <span className="mt-auto inline-flex items-center gap-2 font-grotesk text-[12px] font-bold uppercase tracking-[0.08em] text-ink">
+                      <span className="underline-sweep-wrap relative">
+                        Read the case
+                        <span className="underline-sweep" style={{ color: c.accent }} />
+                      </span>
+                      <ArrowRightIcon color="#1B1B18" />
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -158,31 +161,19 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-3 md:grid-cols-6">
             {galleryPicks.map((pick, i) =>
               pick.image ? (
-                <ExhibitTile
-                  key={i}
-                  letter={pick.image.letter}
-                  label={pick.image.label}
-                  color={accentByCase[pick.case]}
-                  isVideo={pick.image.isVideo}
-                  src={pick.image.src}
-                  videoSrc={pick.image.videoSrc}
-                />
+                <Reveal key={i} delay={(i % 6) * 70}>
+                  <ExhibitTile
+                    letter={pick.image.letter}
+                    label={pick.image.label}
+                    color={accentByCase[pick.case]}
+                    isVideo={pick.image.isVideo}
+                    src={pick.image.src}
+                    videoSrc={pick.image.videoSrc}
+                  />
+                </Reveal>
               ) : null
             )}
           </div>
-        </div>
-      </section>
-
-      {/* APPROACH */}
-      <section id="approach" className="bg-cobalt px-6 py-16 md:px-10 md:py-24">
-        <div className="mx-auto max-w-4xl">
-          <FieldLabel color="#F4EEDF" className="mb-8">Approach</FieldLabel>
-          <p className="font-serif text-[24px] italic leading-relaxed text-cream md:text-[30px]">
-            "I don't start from a mood board. I start from the shelf, the
-            interview transcript, or the comment section, wherever the actual
-            evidence about a real person's decision lives. Then I build the brand
-            idea from there."
-          </p>
         </div>
       </section>
 
@@ -214,15 +205,15 @@ export default function Home() {
       <footer id="next-steps" className="bg-inkNavy px-6 py-16 md:px-10 md:py-20">
         <div className="mx-auto flex max-w-6xl flex-col gap-10 md:flex-row md:items-end md:justify-between">
           <div>
-            <FieldLabel color="#E2492B" className="mb-6">Next Steps</FieldLabel>
+            <FieldLabel color="#2B4EA8" className="mb-6">Next Steps</FieldLabel>
             <h2 className="max-w-xl font-grotesk text-[28px] font-bold leading-tight text-cream md:text-[34px]">
-              Open to entry-level marketing roles in Raleigh-Durham and beyond.
+              Open to entry-level marketing and sports marketing roles across the U.S.
             </h2>
             <a
-              href="mailto:hello@alejandromorales.com"
-              className="mt-6 inline-block font-grotesk text-[15px] font-semibold text-cream underline decoration-coral decoration-2 underline-offset-4 hover:text-coral"
+              href="mailto:alejom3456@gmail.com"
+              className="mt-6 inline-block font-grotesk text-[15px] font-semibold text-cream underline decoration-cobalt decoration-2 underline-offset-4 hover:text-cobalt"
             >
-              hello@alejandromorales.com
+              alejom3456@gmail.com
             </a>
           </div>
           <div className="flex flex-col items-start gap-3 md:items-end">

@@ -23,11 +23,15 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 }
 
 function tagColor(tag: CaseSection["tag"], accent: string) {
-  if (tag === "TEAM RESULT") return "#E2492B";
+  if (tag === "TEAM RESULT") return "#F4EEDF"; // white flag — always distinct from any case's own accent
   if (tag === "MY ROLE") return accent;
-  if (tag === "CHALLENGE") return "#4A4740";
-  if (tag === "INSIGHT") return "#6B7280";
-  return "#8A8577"; // CONTEXT
+  if (tag === "CHALLENGE") return "#1B1B18"; // black
+  if (tag === "INSIGHT") return "#D9A62E"; // yellow — the "aha" highlight, on every case
+  return "#7D95C4"; // CONTEXT — lighter blue tint, the setup/background beat
+}
+
+function tagTextColor(tag: CaseSection["tag"]) {
+  return tag === "TEAM RESULT" ? "#1B1B18" : "#F4EEDF";
 }
 
 // Generic bottle/tube silhouettes in brand-associated colors — drawn shapes,
@@ -130,10 +134,10 @@ function SoccerSilhouette({ kind, color, accent }: { kind: SoccerKind; color: st
 const TRIVELA_RAIN_ITEMS: { kind: SoccerKind; color: string; accent: string; left: string; size: number; delay: string; duration: string }[] = [
   { kind: "ball", color: "#F4EEDF", accent: "#14181F", left: "3%", size: 40, delay: "0s", duration: "16s" },
   { kind: "scarf", color: "#D9A62E", accent: "#14181F", left: "15%", size: 34, delay: "4s", duration: "19s" },
-  { kind: "boot", color: "#8A8577", accent: "#F4EEDF", left: "30%", size: 44, delay: "9s", duration: "17s" },
+  { kind: "boot", color: "#1B1B18", accent: "#F4EEDF", left: "30%", size: 44, delay: "9s", duration: "17s" },
   { kind: "ball", color: "#D9A62E", accent: "#1B1B18", left: "45%", size: 34, delay: "2s", duration: "20s" },
   { kind: "whistle", color: "#F4EEDF", accent: "#D9A62E", left: "60%", size: 30, delay: "12s", duration: "18s" },
-  { kind: "scarf", color: "#4A4740", accent: "#D9A62E", left: "74%", size: 32, delay: "6s", duration: "21s" },
+  { kind: "scarf", color: "#1B1B18", accent: "#D9A62E", left: "74%", size: 32, delay: "6s", duration: "21s" },
   { kind: "boot", color: "#D9A62E", accent: "#14181F", left: "88%", size: 42, delay: "3s", duration: "16.5s" },
 ];
 
@@ -398,14 +402,32 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
             </div>
           </aside>
 
+          {/* Mobile section map — same links as the sticky rail, horizontal on phone */}
+          <div className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-2 md:hidden">
+            {c.sections.map((s) => (
+              <a
+                key={s.title}
+                href={`#${s.title.toLowerCase().replace(/\s+/g, "-")}`}
+                className="shrink-0 whitespace-nowrap rounded-full border px-3 py-1.5 font-grotesk text-[10px] font-bold uppercase tracking-[0.08em] text-inkSecondary"
+                style={{ borderColor: tagColor(s.tag, c.accent) }}
+              >
+                {s.title}
+              </a>
+            ))}
+          </div>
+
           {/* Sections */}
           <div className="flex flex-col gap-14">
             {c.sections.map((s) => (
               <Reveal key={s.title}>
                 <div id={s.title.toLowerCase().replace(/\s+/g, "-")} className="scroll-mt-8">
                   <span
-                    className="mb-4 inline-block rounded-sm px-2.5 py-1 font-grotesk text-[10px] font-bold uppercase tracking-[0.1em] text-cream"
-                    style={{ backgroundColor: tagColor(s.tag, c.accent) }}
+                    className="mb-4 inline-block rounded-sm border px-2.5 py-1 font-grotesk text-[10px] font-bold uppercase tracking-[0.1em]"
+                    style={{
+                      backgroundColor: tagColor(s.tag, c.accent),
+                      color: tagTextColor(s.tag),
+                      borderColor: s.tag === "TEAM RESULT" ? "#1B1B18" : "transparent",
+                    }}
                   >
                     {s.tag}
                   </span>
@@ -593,7 +615,7 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
         </Link>
         <Link
           href={`/work/${next.slug}`}
-          className="flex items-center gap-2 font-grotesk text-[13px] font-bold uppercase tracking-[0.1em] text-cream hover:text-coral"
+          className="flex items-center gap-2 font-grotesk text-[13px] font-bold uppercase tracking-[0.1em] text-cream hover:text-cobalt"
         >
           Next case: {next.title} <ArrowRightIcon />
         </Link>

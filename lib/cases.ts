@@ -40,13 +40,15 @@ export type CaseStudy = {
   appendixExhibits?: ExhibitImage[];
 };
 
-// Tag color logic (kept consistent across every case):
-//  CONTEXT      -> warm taupe gray (#8A8577), the setup / background
-//  CHALLENGE    -> dark espresso   (#4A4740), the tension / problem
-//  INSIGHT      -> cool slate gray (#6B7280), the finding / clarity
-//  MY ROLE      -> this case's own accent color
-//  TEAM RESULT  -> always coral (#E2492B), a consistent "verify before publishing" flag
-//                  across the whole site, regardless of the case's own color.
+// Tag color logic (kept consistent across every case). Site palette is
+// restricted to black / yellow / white / blue only — see tailwind.config.ts.
+//  CONTEXT      -> light blue tint (#7D95C4), the setup / background
+//  CHALLENGE    -> black           (#1B1B18), the tension / problem
+//  INSIGHT      -> yellow          (#D9A62E), the finding / clarity — the "aha" highlight
+//  MY ROLE      -> this case's own accent color (blue / black / yellow)
+//  TEAM RESULT  -> always white with a black border (#F4EEDF / #1B1B18), a consistent
+//                  "verify before publishing" flag across the whole site, distinct
+//                  from any case's own accent color.
 // All set in the page renderer's tagColor() function.
 
 export const cases: CaseStudy[] = [
@@ -159,7 +161,7 @@ export const cases: CaseStudy[] = [
     role: "Sole creator, start to finish: research, game design, product validation, brand identity & business model",
     timeline: "2021 to 2025 · thesis submitted Nov. 2025",
     category: "Consumer Insight & Product",
-    accent: "#E2492B",
+    accent: "#1B1B18",
     exhibitLabel: "EXHIBIT B · INSIGHT & PRODUCT",
     logo: "/images/epa/riiing-logo.png",
     heroImage: "/images/epa/epa-lineup-hero.jpg",

@@ -19,7 +19,6 @@ const config: Config = {
         rule: "#E4DAC0",
         ruleAlt: "#DCCFA9",
         cobalt: "#2B4EA8",
-        coral: "#E2492B",
         mustard: "#D9A62E",
       },
       fontFamily: {
